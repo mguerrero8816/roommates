@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  references: 
+  cents: MyString
+  integer,: MyString
+  split: MyString
+  integer,: MyString
+  paid: 2016-11-24 19:11:49
+
+two:
+  references: 
+  cents: MyString
+  integer,: MyString
+  split: MyString
+  integer,: MyString
+  paid: 2016-11-24 19:11:49

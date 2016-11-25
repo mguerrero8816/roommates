@@ -1,2 +1,4 @@
-<%= link_to('Logout', destroy_user_session_path, :method => :delete) %></br>
-Logged In As: <%= current_user.try(:email) %>
+<div id='main-nav'>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %></br>
+  Logged In As: <%= current_user.email %>
+</div>
