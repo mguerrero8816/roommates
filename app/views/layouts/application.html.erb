@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <%= render partial: 'layouts/main_nav' %>
+    <%= render partial: 'layouts/main_nav' unless current_user.nil? %>
     <%= yield %>
   </body>
 </html>
