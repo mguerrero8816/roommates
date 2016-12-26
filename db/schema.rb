@@ -10,17 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161125031149) do
+ActiveRecord::Schema.define(version: 20161226015630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "transactions", force: :cascade do |t|
+  create_table "payments", force: :cascade do |t|
     t.integer  "cents"
     t.integer  "split"
     t.datetime "due"
     t.datetime "paid"
     t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "splitters", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "payment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

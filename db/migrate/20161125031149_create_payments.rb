@@ -1,6 +1,6 @@
-class CreateTransactions < ActiveRecord::Migration[5.0]
+class CreatePayments < ActiveRecord::Migration[5.0]
   def change
-    create_table :transactions do |t|
+    create_table :payments do |t|
       t.integer :cents
       t.integer :split
       t.datetime :due
