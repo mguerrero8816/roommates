@@ -6,6 +6,7 @@ class CreatePayments < ActiveRecord::Migration[5.0]
       t.datetime :due
       t.datetime :paid
       t.integer :user_id
+      t.integer :apartment_id
 
       t.timestamps
     end

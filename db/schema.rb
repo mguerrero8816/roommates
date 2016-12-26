@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161226015630) do
+ActiveRecord::Schema.define(version: 20161226025704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "apartment_tenants", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "apartment_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "apartments", force: :cascade do |t|
+    t.string   "name"
+    t.string   "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "payments", force: :cascade do |t|
     t.integer  "cents"
@@ -21,8 +35,9 @@ ActiveRecord::Schema.define(version: 20161226015630) do
     t.datetime "due"
     t.datetime "paid"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "apartment_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "splitters", force: :cascade do |t|
