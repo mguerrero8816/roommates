@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :payments
   has_many :splitters
+  has_many :bills
 end
