@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20170106235713) do
     t.integer  "user_id"
     t.integer  "payment_id"
     t.integer  "apartment_id"
+    t.string   "name"
     t.integer  "cents"
     t.datetime "due"
     t.datetime "paid"

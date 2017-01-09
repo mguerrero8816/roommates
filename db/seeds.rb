@@ -9,11 +9,24 @@
 admin = User.create(email: 'admin@admin.com', password: 'Abcd1234')
 mike = User.create(email: 'mike@test.com', password: 'Abcd1234')
 jennice = User.create(email: 'jennice@test.com', password: 'Abcd1234')
+yuki = User.create(email: 'yuki@test.com', password: 'Abcd1234')
+danny = User.create(email: 'danny@test.com', password: 'Abcd1234')
 
-test_payment = Payment.create(user_id: mike.id)
-test_payment.splitters << mike
-test_payment.splitters << jennice
+payment_01 = Payment.create(user_id: mike.id)
+payment_01.splitters << mike
+payment_01.splitters << jennice
 
-test_apartment = Apartment.create(name: 'Test Place')
-test_apartment.tenants << mike
-test_apartment.tenants << jennice
+apartment_01 = Apartment.create(name: 'Old Place')
+apartment_01.tenants << mike
+apartment_01.tenants << jennice
+apartment_01.tenants << yuki
+apartment_01.tenants << danny
+
+apartment_02 = Apartment.create(name: 'New Place')
+apartment_02.tenants << mike
+apartment_02.tenants << jennice
+
+bill_01 = Bill.create(name: 'Rent', cents: 220000, apartment_id: apartment_01.id, user_id: yuki.id)
+bill_02 = Bill.create(name: 'Electric', cents: 10000, apartment_id: apartment_01.id, user_id: mike.id)
+bill_03 = Bill.create(name: 'Water', cents: 16000, apartment_id: apartment_01.id, user_id: mike.id)
+bill_04 = Bill.create(name: 'Internet', cents: 8000, apartment_id: apartment_01.id, user_id: jennice.id)
