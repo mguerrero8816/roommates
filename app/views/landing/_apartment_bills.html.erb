@@ -1,1 +1,28 @@
-<%= apartment_bills %>
+<% apartment = apartment_bills[:apartment] %>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= apartment.name %></th>
+      <th><%= link_to 'Add New Bill', new_bill_path(apartment_id: apartment.id)%></th>
+    </tr>
+    <tr style="text-align: left">
+      <th>Bill</th>
+      <th>Owner</th>
+      <th>Amount</th>
+      <th>Due Date</th>
+      <th>Paid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% apartment_bills[:bills].each do |_, bill| %>
+      <tr style="text-align: left">
+        <td><%= link_to bill.name, bill_path(bill) %></td>
+        <td><%= apartment_bills[:bill_owners][bill.user_id.to_s.to_sym].full_name %></td>
+        <td style="text-align: right">$<%= number_with_precision(bill.cents/100, precision: 2) %></td>
+        <td><%= bill.due || 'Pending' %></td>
+        <td><%= bill.paid || 'Not Paid' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

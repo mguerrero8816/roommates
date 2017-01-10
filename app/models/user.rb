@@ -7,4 +7,8 @@ class User < ApplicationRecord
   has_many :payments
   has_many :splitters
   has_many :bills
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

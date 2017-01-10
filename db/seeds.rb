@@ -7,10 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 admin = User.create(email: 'admin@admin.com', password: 'Abcd1234')
-mike = User.create(email: 'mike@test.com', password: 'Abcd1234')
-jennice = User.create(email: 'jennice@test.com', password: 'Abcd1234')
-yuki = User.create(email: 'yuki@test.com', password: 'Abcd1234')
-danny = User.create(email: 'danny@test.com', password: 'Abcd1234')
+mike = User.create(email: 'mike@test.com', password: 'Abcd1234', first_name: 'Mike', last_name: 'Gtest')
+jennice = User.create(email: 'jennice@test.com', password: 'Abcd1234', first_name: 'Jennice', last_name: 'Ltest')
+yuki = User.create(email: 'yuki@test.com', password: 'Abcd1234', first_name: 'Yuki', last_name: 'Htest')
+danny = User.create(email: 'danny@test.com', password: 'Abcd1234', first_name: 'Danny', last_name: 'Mtest')
 
 payment_01 = Payment.create(user_id: mike.id)
 payment_01.splitters << mike
