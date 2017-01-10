@@ -1,0 +1,36 @@
+<%= form_for(@bill) do |f| %>
+  <table>
+    <thead>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= f.label :name, 'Name' %></td>
+        <td><%= f.text_field :name, placeholder: "e.g. 'Rent'" %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :user_id, 'Owner' %></td>
+        <td><%= f.select :user_id, User.select_options %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :dollars, 'Amount'%></td>
+        <td>
+          $<%= f.number_field :dollars %>.<%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, 0) %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :due, 'Due Date' %></td>
+        <td><%= f.date_select :due, order: [:month, :day, :year] %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :paid, 'Paid' %></td>
+        <td>
+          <%= f.check_box :confirm_pay %>
+          <%= f.date_select :due, order: [:month, :day, :year] %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<script>
+</script>

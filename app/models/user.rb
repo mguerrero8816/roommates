@@ -8,6 +8,14 @@ class User < ApplicationRecord
   has_many :splitters
   has_many :bills
 
+  class << self
+    def select_options
+      all.map do |user|
+        [user.full_name, user.id]
+      end
+    end
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end
