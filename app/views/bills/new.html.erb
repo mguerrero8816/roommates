@@ -14,7 +14,7 @@
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
         <td>
-          $<%= f.number_field :dollars %>.<%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, 0) %>
+          $ <%= f.number_field :dollars %> . <%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, 0) %>
         </td>
       </tr>
       <tr>
