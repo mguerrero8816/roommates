@@ -26,7 +26,7 @@ apartment_02 = Apartment.create(name: 'New Place')
 apartment_02.tenants << mike
 apartment_02.tenants << jennice
 
-bill_01 = Bill.create(name: 'Rent', cents: 220000, apartment_id: apartment_01.id, user_id: yuki.id)
-bill_02 = Bill.create(name: 'Electric', cents: 10000, apartment_id: apartment_01.id, user_id: mike.id)
-bill_03 = Bill.create(name: 'Water', cents: 16000, apartment_id: apartment_01.id, user_id: mike.id)
-bill_04 = Bill.create(name: 'Internet', cents: 8000, apartment_id: apartment_01.id, user_id: jennice.id)
+bill_01 = Bill.create(name: 'Rent', cents: 220000, apartment_id: apartment_01.id, user_id: yuki.id, due: Time.now + 10.days)
+bill_02 = Bill.create(name: 'Electric', cents: 10062, apartment_id: apartment_01.id, user_id: mike.id, due: Time.now + 10.days)
+bill_03 = Bill.create(name: 'Water', cents: 16014, apartment_id: apartment_01.id, user_id: mike.id, due: Time.now + 10.days)
+bill_04 = Bill.create(name: 'Internet', cents: 8000, apartment_id: apartment_01.id, user_id: jennice.id, due: Time.now + 10.days)
