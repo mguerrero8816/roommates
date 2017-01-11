@@ -5,4 +5,9 @@ class Bill < ApplicationRecord
 
   attr_accessor :dollars
   attr_accessor :confirm_pay
+
+  validates_presence_of :name
+  validates :cents, numericality: { greater_than: 0 }
+
+  private
 end

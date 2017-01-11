@@ -10,8 +10,8 @@ class BillsController < ApplicationController
 
   def create
     @bill = Bill.new(bill_params)
-    @bill.cents = params[:dollars].to_i*100 + params[:cents].to_i
-    @bill.paid = params[:confirm_pay] ? params[:paid] : nil
+    @bill.cents = params[:bill][:dollars].to_i*100 + params[:bill][:cents].to_i
+    @bill.paid = params[:bill][:confirm_pay] ? params[:bill][:paid] : nil
     if @bill.save
       redirect_to root_path
     else
@@ -23,8 +23,16 @@ class BillsController < ApplicationController
     @bill = Bill.find(params[:id])
   end
 
-  def updated
-    # TODO
+  def update
+    @bill = Bill.find(params[:id])
+    @bill.assign_attributes(bill_params)
+    @bill.cents = params[:bill][:dollars].to_i*100 + params[:bill][:cents].to_i
+    @bill.paid = params[:bill][:confirm_pay] ? params[:bill][:paid] : nil
+    if @bill.save
+      redirect_to root_path
+    else
+      render :edit
+    end
   end
 
   def destroy
