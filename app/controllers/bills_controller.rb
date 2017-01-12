@@ -11,7 +11,6 @@ class BillsController < ApplicationController
   def create
     @bill = Bill.new(bill_params)
     @bill.cents = params[:bill][:dollars].to_i*100 + params[:bill][:cents].to_i
-    @bill.paid = params[:bill][:confirm_pay] ? params[:bill][:paid] : nil
     if @bill.save
       redirect_to root_path
     else
@@ -27,7 +26,6 @@ class BillsController < ApplicationController
     @bill = Bill.find(params[:id])
     @bill.assign_attributes(bill_params)
     @bill.cents = params[:bill][:dollars].to_i*100 + params[:bill][:cents].to_i
-    @bill.paid = params[:bill][:confirm_pay] ? params[:bill][:paid] : nil
     if @bill.save
       redirect_to root_path
     else

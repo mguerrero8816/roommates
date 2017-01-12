@@ -44,31 +44,8 @@
         <td><%= f.date_select :due, order: [:month, :day, :year] %></td>
       </tr>
       <tr>
-        <td><%= f.label :paid, 'Paid' %></td>
-        <td>
-          <%= f.check_box :confirm_pay %>
-          <%= f.date_select :paid, order: [:month, :day, :year], disabled: true %>
-        </td>
-      </tr>
-      <tr>
         <td><%= f.submit %></td>
       </tr>
     </tbody>
   </table>
 <% end %>
-
-<script type="text/javascript" language="javascript">
-  $(document).ready(function(){
-    $("#bill_confirm_pay").change(function(){
-      if ($(this).is(":checked")){
-        $("#bill_paid_1i").removeAttr("disabled")
-        $("#bill_paid_2i").removeAttr("disabled")
-        $("#bill_paid_3i").removeAttr("disabled")
-      } else {
-        $("#bill_paid_1i").attr('disabled', 'disabled')
-        $("#bill_paid_2i").attr('disabled', 'disabled')
-        $("#bill_paid_3i").attr('disabled', 'disabled')
-      }
-    })
-  })
-</script>

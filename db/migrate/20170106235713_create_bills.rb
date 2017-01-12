@@ -7,7 +7,6 @@ class CreateBills < ActiveRecord::Migration[5.0]
       t.string :name
       t.integer :cents
       t.datetime :due
-      t.datetime :paid
 
       t.timestamps
     end

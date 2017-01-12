@@ -21,7 +21,7 @@
         <td><%= apartment_bills[:bill_owners][bill.user_id.to_s.to_sym].full_name %></td>
         <td style="text-align: right"><%= "$#{bill.cents/100}.#{(bill.cents%100).to_s.rjust(2, '0')}" %></td>
         <td><%= bill.due || 'Pending' %></td>
-        <td><%= bill.paid || 'Not Paid' %></td>
+        <td><%= bill.payment_id ? 'Paid' || 'Not Paid' %></td>
       </tr>
     <% end %>
   </tbody>
