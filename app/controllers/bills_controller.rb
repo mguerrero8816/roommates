@@ -41,6 +41,25 @@ class BillsController < ApplicationController
     # TODO
   end
 
+  def pay_bill
+    @bill = Bill.find(params[:id])
+    apartment = @bill.apartment
+    tenants = apartment.tenants
+    tenants.each do |tenant|
+      # skip the person paying the bill
+      share = Share.new(bill_id: params[:id], user_id: tenant.id, apartment_id: apartment.id)
+      if tenant.id == current_user.id
+        share.cents = @bill.cents%tenants.count
+      else
+        share.cents = @bill.cents/tenants.count
+      end
+      share.save
+    end
+    @bill.paid = Time.now
+    @bill.save
+    render action: :show
+  end
+
   private
 
   def bill_params

@@ -29,24 +29,17 @@ ActiveRecord::Schema.define(version: 20170110073531) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "bills", force: :cascade do |t|
+  create_table "debts", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "debt_id"
+    t.integer  "bill_id"
     t.integer  "apartment_id"
     t.string   "name"
     t.integer  "cents"
     t.datetime "due"
     t.datetime "paid"
+    t.string   "type"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-  end
-
-  create_table "debts", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "bill_id"
-    t.datetime "paid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
