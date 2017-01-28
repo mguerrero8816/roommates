@@ -43,6 +43,8 @@ class BillsController < ApplicationController
 
   def pay_bill
     @bill = Bill.find(params[:id])
+    # do not process if bill is already paid
+    render action: :show if @bill.paid
     apartment = @bill.apartment
     tenants = apartment.tenants
     tenants.each do |tenant|
