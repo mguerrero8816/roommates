@@ -1,4 +1,5 @@
 <div id='main-nav'>
+  <%= link_to 'Home', root_path %>
   <%= link_to('Logout', destroy_user_session_path, :method => :delete) %></br>
   Logged In As: <%= current_user.email %>
 </div>
