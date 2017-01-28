@@ -3,6 +3,10 @@ class BillsController < ApplicationController
     @bills = Bill.all
   end
 
+  def show
+    @bill = Bill.find(params[:id])
+  end
+
   def new
     @bill = Bill.new
     @apartment_id = params[:apartment_id]

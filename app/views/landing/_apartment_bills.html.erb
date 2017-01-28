@@ -13,6 +13,7 @@
       <th>Due Date</th>
       <th>Paid</th>
       <th></th>
+    </tr>
   </thead>
   <tbody>
     <% apartment_bills[:bills].each do |_, bill| %>
@@ -20,8 +21,16 @@
         <td><%= link_to bill.name, edit_bill_path(bill) %></td>
         <td><%= apartment_bills[:bill_owners][bill.user_id.to_s.to_sym].full_name %></td>
         <td style="text-align: right"><%= "$#{bill.cents/100}.#{(bill.cents%100).to_s.rjust(2, '0')}" %></td>
-        <td><%= bill.due || 'Pending' %></td>
-        <td><%= bill.payment_id ? 'Paid' || 'Not Paid' %></td>
+        <td><%= bill.due ? bill.due.strftime('%m-%d-%Y') : 'Pending' %></td>
+        <td>
+          <% if bill.paid %>
+            <%= 'Paid' %>
+          <% elsif bill.user_id == current_user.id %>
+            <%= link_to 'Pay', bill_path(bill) %>
+          <% else %>
+            <%= 'Unpaid' %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

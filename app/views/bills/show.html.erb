@@ -1,0 +1,29 @@
+<%= form_tag pay_bill_bills_path(bill_id: @bill.id) do %>
+  <table>
+    <tbody>
+      <tr>
+        <td>Bill:</td>
+        <td><%= @bill.name %></td>
+      </tr>
+      <tr>
+        <td>Amount:</td>
+        <td><%= "$#{@bill.cents/100}.#{@bill.cents%100}" %></td>
+      </tr>
+      <tr>
+        <td>Due Date:</td>
+        <td><%= @bill.due.strftime('%M-%d-%Y') %></td>
+      </tr>
+      <tr>
+        <td>Owner:</td>
+        <td><%= @bill.user.full_name %></td>
+      </tr>
+      <tr>
+        <td>Apartment:</td>
+        <td><%= @bill.apartment.name %></td>
+      </tr>
+      <tr>
+        <td><%= submit_tag('Pay Bill', data: { confirm: 'Pay Now?' } )%></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

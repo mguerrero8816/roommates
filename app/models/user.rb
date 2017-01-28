@@ -4,9 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :payments
-  has_many :splitters
   has_many :bills
+  has_many :debts
 
   class << self
     def select_options

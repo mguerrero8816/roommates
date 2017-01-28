@@ -12,10 +12,6 @@ jennice = User.create(email: 'jennice@test.com', password: 'Abcd1234', first_nam
 yuki = User.create(email: 'yuki@test.com', password: 'Abcd1234', first_name: 'Yuki', last_name: 'Htest')
 danny = User.create(email: 'danny@test.com', password: 'Abcd1234', first_name: 'Danny', last_name: 'Mtest')
 
-payment_01 = Payment.create(user_id: mike.id)
-payment_01.splitters << mike
-payment_01.splitters << jennice
-
 apartment_01 = Apartment.create(name: 'Old Place')
 apartment_01.tenants << mike
 apartment_01.tenants << jennice
