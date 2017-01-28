@@ -18,7 +18,7 @@
   <tbody>
     <% apartment_bills[:bills].each do |_, bill| %>
       <tr style="text-align: left">
-        <td><%= link_to bill.name, edit_bill_path(bill) %></td>
+        <td><%= link_to bill.name, bill_path(bill) %></td>
         <td><%= apartment_bills[:bill_owners][bill.user_id.to_s.to_sym].full_name %></td>
         <td style="text-align: right"><%= "$#{bill.cents/100}.#{(bill.cents%100).to_s.rjust(2, '0')}" %></td>
         <td><%= bill.due ? bill.due.strftime('%m-%d-%Y') : 'Pending' %></td>

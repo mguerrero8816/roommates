@@ -1,4 +1,4 @@
-<%= form_tag pay_bill_bill_path(bill_id: @bill.id) do %>
+<%= form_tag pay_bill_path(bill_id: @bill.id) do %>
   <table>
     <tbody>
       <tr>
@@ -35,4 +35,5 @@
       </tr>
     </tbody>
   </table>
+  <%= link_to 'Edit', edit_bill_path(@bill) unless @bill.paid %>
 <% end %>

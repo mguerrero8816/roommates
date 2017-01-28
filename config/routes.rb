@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :bills do
-    post :pay_bill, on: :member
+    post :pay, on: :member
   end
 end

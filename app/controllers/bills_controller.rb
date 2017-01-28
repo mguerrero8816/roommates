@@ -1,4 +1,6 @@
 class BillsController < ApplicationController
+  before_filter :default_if_paid, only: [:edit, :update, :destroy, :pay]
+
   def index
     @bills = Bill.all
   end
@@ -23,11 +25,9 @@ class BillsController < ApplicationController
   end
 
   def edit
-    @bill = Bill.find(params[:id])
   end
 
   def update
-    @bill = Bill.find(params[:id])
     @bill.assign_attributes(bill_params)
     @bill.cents = params[:bill][:dollars].to_i*100 + params[:bill][:cents].to_i
     if @bill.save
@@ -41,10 +41,7 @@ class BillsController < ApplicationController
     # TODO
   end
 
-  def pay_bill
-    @bill = Bill.find(params[:id])
-    # do not process if bill is already paid
-    render action: :show if @bill.paid
+  def pay
     apartment = @bill.apartment
     tenants = apartment.tenants
     tenants.each do |tenant|
@@ -63,6 +60,15 @@ class BillsController < ApplicationController
   end
 
   private
+
+  def default_if_paid
+    @bill = Bill.find(params[:id])
+    if @bill.paid
+      # do not process if bill is already paid
+      flash.notice = 'Payment must be undone before bill can be modified' 
+      render action: :show
+    end
+  end
 
   def bill_params
     params.require(:bill).permit(:apartment_id, :name, :user_id, :due)
