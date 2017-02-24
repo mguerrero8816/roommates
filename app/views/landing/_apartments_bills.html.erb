@@ -1,10 +1,12 @@
-<% apartment = apartment_bills[:apartment] %>
+<% apartments_bills.each do |x| %>
+  <%= x.attributes %>
+<% end %>
 
 <table>
   <thead>
     <tr>
-      <th><%= apartment.name %></th>
-      <th><%= link_to 'Add New Bill', new_bill_path(apartment_id: apartment.id)%></th>
+      <th><%#= apartment.name %></th>
+      <th><%#= link_to 'Add New Bill', new_bill_path(apartment_id: apartment.id)%></th>
     </tr>
     <tr style="text-align: left">
       <th>Bill</th>
@@ -16,7 +18,8 @@
     </tr>
   </thead>
   <tbody>
-    <% apartment_bills[:bills].each do |_, bill| %>
+    <% apartments_bills.each do |_, bill| %>
+    <% next %>
       <tr style="text-align: left">
         <td><%= link_to bill.name, bill_path(bill) %></td>
         <td><%= apartment_bills[:bill_owners][bill.user_id.to_s.to_sym].full_name %></td>
