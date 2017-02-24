@@ -41,31 +41,13 @@ class BillsController < ApplicationController
     # TODO
   end
 
-  def pay
-    apartment = @bill.apartment
-    tenants = apartment.tenants
-    tenants.each do |tenant|
-      # skip the person paying the bill
-      share = Share.new(bill_id: params[:id], user_id: tenant.id, apartment_id: apartment.id)
-      if tenant.id == current_user.id
-        share.cents = @bill.cents%tenants.count
-      else
-        share.cents = @bill.cents/tenants.count
-      end
-      share.save
-    end
-    @bill.paid = Time.now
-    @bill.save
-    render action: :show
-  end
-
   private
 
   def default_if_paid
     @bill = Bill.find(params[:id])
     if @bill.paid
       # do not process if bill is already paid
-      flash.notice = 'Payment must be undone before bill can be modified' 
+      flash.notice = 'Payment must be undone before bill can be modified'
       render action: :show
     end
   end

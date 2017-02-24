@@ -26,7 +26,7 @@
           <% if bill.paid %>
             <%= 'Paid' %>
           <% elsif bill.user_id == current_user.id %>
-            <%= link_to 'Pay', bill_path(bill) %>
+            <%= link_to 'Pay', new_payment_path(debt_id: bill.id) %>
           <% else %>
             <%= 'Unpaid' %>
           <% end %>

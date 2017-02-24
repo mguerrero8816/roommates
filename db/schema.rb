@@ -31,12 +31,11 @@ ActiveRecord::Schema.define(version: 20170128093956) do
 
   create_table "debts", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "bill_id"
+    t.integer  "owner_id"
     t.integer  "apartment_id"
     t.string   "name"
     t.integer  "cents"
     t.datetime "due"
-    t.datetime "paid"
     t.string   "type"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
@@ -46,7 +45,6 @@ ActiveRecord::Schema.define(version: 20170128093956) do
     t.integer  "user_id"
     t.integer  "debt_id"
     t.integer  "cents"
-    t.datetime "paid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -62,10 +60,10 @@ ActiveRecord::Schema.define(version: 20170128093956) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
     t.string   "first_name"
     t.string   "last_name"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

@@ -1,0 +1,43 @@
+<% if @debt.cents %>
+  <% debt_dollars = @debt.cents/100 %>
+  <% debt_cents = @debt.cents%100 %>
+<% else %>
+  <% debt_dollars = 0 %>
+  <% debt_cents = 0 %>
+<% end %>
+
+<%= form_for(@payment) do |f| %>
+  <% if @payment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+      <ul>
+        <% @payment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :debt_id, value: @debt.id %>
+  <table>
+    <tbody>
+      <tr>
+        <td>Debt</td>
+        <td><%= @debt.name %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :dollars, 'Amount'%></td>
+        <td>
+          $ <%= f.number_field :dollars, value: debt_dollars %> . <%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, debt_cents) %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :paid, 'Date'%></td>
+        <td><%= f.date_select :paid, { order: [:month, :day, :year]} %></td>
+      </tr>
+      <tr>
+        <td><%= f.submit 'Pay' %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
