@@ -15,7 +15,8 @@ module Reporter
       private
 
       def join_apartments(apartments)
-        apartments.select('apartments.name AS apartment_name')
+        apartments.select('apartments.id AS apartment_id,
+                           apartments.name AS apartment_name')
                   .joins('LEFT JOIN apartments ON apartment_tenants.apartment_id = apartments.id')
       end
 
@@ -28,7 +29,8 @@ module Reporter
       end
 
       def join_bill_owners(apartments)
-        apartments.select('owners.first_name AS owner_first_name,
+        apartments.select('owners.id AS owner_id,
+                           owners.first_name AS owner_first_name,
                            owners.last_name AS owner_last_name')
                   .joins('LEFT JOIN users AS owners ON bills.user_id = owners.id')
       end
@@ -38,7 +40,6 @@ module Reporter
         payments = Payment.where(debt_id: bill_ids)
         apartments.each do |row|
           row.amount_paid = 0
-          p row.amount_paid
           next if row.bill_id.nil?
           payments.each do |payment|
             next if payment.debt_id.nil?

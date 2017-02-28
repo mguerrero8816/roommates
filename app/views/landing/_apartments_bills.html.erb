@@ -1,41 +1,41 @@
-<% apartments_bills.each do |x| %>
-  <%= x.attributes %>
-  <%= x.amount_paid %>
-<% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th><%#= apartment.name %></th>
-      <th><%#= link_to 'Add New Bill', new_bill_path(apartment_id: apartment.id)%></th>
-    </tr>
-    <tr style="text-align: left">
-      <th>Bill</th>
-      <th>Owner</th>
-      <th>Amount</th>
-      <th>Due Date</th>
-      <th>Paid</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% apartments_bills.each do |_, bill| %>
-    <% next %>
+<% apartments_bills.each_with_index do |bill, index| %>
+  <% new_table_start = bill.apartment_id != apartments_bills[index-1].apartment_id %>
+  <% new_table_end = apartments_bills[index+1].nil? || bill.apartment_id != apartments_bills[index+1].apartment_id %>
+  <% if new_table_start %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= bill.apartment_name %></th>
+        <th><%= link_to 'Add New Bill', new_bill_path(apartment_id: bill.apartment_id)%></th>
+      </tr>
       <tr style="text-align: left">
-        <td><%= link_to bill.name, bill_path(bill) %></td>
-        <td><%= apartment_bills[:bill_owners][bill.user_id.to_s.to_sym].full_name %></td>
-        <td style="text-align: right"><%= "$#{bill.cents/100}.#{(bill.cents%100).to_s.rjust(2, '0')}" %></td>
-        <td><%= bill.due ? bill.due.strftime('%m-%d-%Y') : 'Pending' %></td>
+        <th>Bill</th>
+        <th>Owner</th>
+        <th>Amount</th>
+        <th>Due Date</th>
+        <th>Paid</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+  <% end %>
+      <tr style="text-align: left">
+        <td><%= link_to bill.bill_name, bill_path(bill.bill_id) %></td>
+        <td><%= name_with_initial_from_sql(bill, :owner) %></td>
+        <td style="text-align: right"><%= cents_to_dollars(bill.bill_cents) %></td>
+        <td><%= bill.bill_due ? bill.bill_due.strftime('%m-%d-%Y') : 'Pending' %></td>
         <td>
-          <% if bill.paid %>
+          <% if bill.amount_paid == bill.bill_cents %>
             <%= 'Paid' %>
-          <% elsif bill.user_id == current_user.id %>
-            <%= link_to 'Pay', new_payment_path(debt_id: bill.id) %>
+          <% elsif bill.owner_id == current_user.id %>
+            <%= link_to 'Pay', new_payment_path(debt_id: bill.bill_id) %>
           <% else %>
             <%= 'Unpaid' %>
           <% end %>
         </td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+  <% if new_table_end %>
+    </tbody>
+  </table>
+  <% end %>
+<% end %>
