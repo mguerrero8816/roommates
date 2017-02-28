@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20170128093956) do
 
   create_table "debts", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "owner_id"
+    t.integer  "pay_to_id"
     t.integer  "apartment_id"
     t.string   "name"
     t.integer  "cents"
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20170128093956) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.integer  "user_id"
     t.integer  "debt_id"
     t.integer  "cents"
     t.datetime "created_at", null: false
