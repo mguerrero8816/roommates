@@ -1,3 +1,5 @@
+<% total_paid = @bill.total_paid %>
+<% bill_paid = total_paid == @bill.cents %>
 <table>
   <tbody>
     <tr>
@@ -23,8 +25,8 @@
     <tr>
       <td>Paid:</td>
       <td>
-        <% if @bill.paid %>
-          <%= @bill.paid %>
+        <% if bill_paid %>
+          Paid
         <% elsif @bill.user_id == current_user.id %>
           <%= link_to 'Pay', new_payment_path(debt_id: @bill.id) %>
         <% else %>
@@ -34,4 +36,4 @@
     </tr>
   </tbody>
 </table>
-<%= link_to 'Edit', edit_bill_path(@bill) unless @bill.paid %>
+<%= link_to 'Edit', edit_bill_path(@bill) unless bill_paid %>
