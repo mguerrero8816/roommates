@@ -24,14 +24,13 @@
     <td><%= name_with_initial_from_sql(bill, :owner) %></td>
     <td style="text-align: right"><%= cents_to_dollars(bill.bill_cents) %></td>
     <td><%= bill.bill_due ? bill.bill_due.strftime('%m-%d-%Y') : 'Pending' %></td>
+    <td style="text-align: right">
+      <% paid_off = bill.amount_paid == bill.bill_cents %>
+      <%= cents_to_dollars(bill.amount_paid) if !paid_off %>
+      <%= 'Paid' if paid_off %>
+    </td>
     <td>
-      <% if bill.amount_paid == bill.bill_cents %>
-        <%= 'Paid' %>
-      <% elsif bill.owner_id == current_user.id %>
-        <%= link_to 'Pay', new_payment_path(debt_id: bill.bill_id) %>
-      <% else %>
-        <%= 'Unpaid' %>
-      <% end %>
+      <%= link_to 'Pay', new_payment_path(debt_id: bill.id) if bill.owner_id == current_user.id && !paid_off %>
     </td>
   </tr>
   <% if new_table_end %>

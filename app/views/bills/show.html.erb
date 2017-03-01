@@ -1,5 +1,5 @@
 <% total_paid = @bill.total_paid %>
-<% bill_paid = total_paid == @bill.cents %>
+<% paid_off = total_paid == @bill.cents %>
 <table>
   <tbody>
     <tr>
@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td>Amount:</td>
-      <td><%= "$#{@bill.cents/100}.#{@bill.cents%100}" %></td>
+      <td><%= cents_to_dollars(@bill.cents) %></td>
     </tr>
     <tr>
       <td>Owner:</td>
@@ -25,15 +25,11 @@
     <tr>
       <td>Paid:</td>
       <td>
-        <% if bill_paid %>
-          Paid
-        <% elsif @bill.user_id == current_user.id %>
-          <%= link_to 'Pay', new_payment_path(debt_id: @bill.id) %>
-        <% else %>
-          Unpaid
-        <% end %>
+        <%= cents_to_dollars(total_paid) unless paid_off %>
+        <%= 'Paid' if paid_off %>
+        <%= link_to 'Pay', new_payment_path(debt_id: @bill.id) if @bill.user_id == current_user.id && !paid_off %>
       </td>
     </tr>
   </tbody>
 </table>
-<%= link_to 'Edit', edit_bill_path(@bill) unless bill_paid %>
+<%= link_to 'Edit', edit_bill_path(@bill) unless paid_off %>
