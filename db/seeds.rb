@@ -12,13 +12,13 @@ jennice = User.create(email: 'jennice@test.com', password: 'Abcd1234', first_nam
 yuki = User.create(email: 'yuki@test.com', password: 'Abcd1234', first_name: 'Yuki', last_name: 'Htest')
 danny = User.create(email: 'danny@test.com', password: 'Abcd1234', first_name: 'Danny', last_name: 'Mtest')
 
-apartment_01 = Apartment.create(name: 'Old Place')
+apartment_01 = Apartment.create(name: 'Old Place', address: '12345 This Street')
 apartment_01.tenants << mike
 apartment_01.tenants << jennice
 apartment_01.tenants << yuki
 apartment_01.tenants << danny
 
-apartment_02 = Apartment.create(name: 'New Place')
+apartment_02 = Apartment.create(name: 'New Place', address: '67890 Up Road')
 apartment_02.tenants << mike
 apartment_02.tenants << jennice
 apartment_02.tenants << yuki

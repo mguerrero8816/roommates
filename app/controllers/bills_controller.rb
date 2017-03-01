@@ -45,9 +45,9 @@ class BillsController < ApplicationController
 
   def default_if_paid
     @bill = Bill.find(params[:id])
-    if @bill.paid
+    if @bill.total_paid > 0
       # do not process if bill is already paid
-      flash.notice = 'Payment must be undone before bill can be modified'
+      flash.notice = 'Payment must be deleted before bill can be modified'
       render action: :show
     end
   end
