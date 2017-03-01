@@ -10,36 +10,19 @@ class PaymentsController < ApplicationController
 
   def create
     @payment = Payment.new(payment_params)
+    @payment.cents = cents_to_dollars(:payment)
     @debt = Debt.find(params[:payment][:debt_id])
-    if @debt.type == 'Bill'
-
+    if @payment.save
+      Payment.last.split_credit if @debt.type == 'Bill'
+      redirect_to 
+    else
+      render :new
     end
-    p @payment
-    p @debt
-    1/0
-  end
-
-  def pay
-    apartment = @bill.apartment
-    tenants = apartment.tenants
-    tenants.each do |tenant|
-      # skip the person paying the bill
-      share = Share.new(bill_id: params[:id], user_id: tenant.id, apartment_id: apartment.id)
-      if tenant.id == current_user.id
-        share.cents = @bill.cents%tenants.count
-      else
-        share.cents = @bill.cents/tenants.count
-      end
-      share.save
-    end
-    @bill.paid = Time.now
-    @bill.save
-    render action: :show
   end
 
   private
 
   def payment_params
-    params.require(:payment).permit(:debt_id, :paid)
+    params.require(:payment).permit(:debt_id, :dollars, :cents, :paid)
   end
 end

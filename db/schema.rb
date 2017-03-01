@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170128093956) do
   create_table "payments", force: :cascade do |t|
     t.integer  "debt_id"
     t.integer  "cents"
+    t.datetime "paid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

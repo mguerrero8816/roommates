@@ -23,7 +23,7 @@
     <tbody>
       <tr>
         <td>Debt</td>
-        <td><%= @debt.name %></td>
+        <td><%= link_to "#{@debt.name} for #{@debt.apartment.name}", bill_path(@debt.id) %></td>
       </tr>
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
@@ -37,6 +37,7 @@
       </tr>
       <tr>
         <td><%= f.submit 'Pay' %></td>
+        <td><%= link_to 'Cancel', request.referrer %></td>
       </tr>
     </tbody>
   </table>

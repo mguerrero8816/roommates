@@ -16,7 +16,7 @@ class BillsController < ApplicationController
 
   def create
     @bill = Bill.new(bill_params)
-    @bill.cents = params[:bill][:dollars].to_i*100 + params[:bill][:cents].to_i
+    @bill.cents = cents_to_dollars(:bill)
     if @bill.save
       redirect_to root_path
     else
