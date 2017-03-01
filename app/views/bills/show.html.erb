@@ -32,4 +32,4 @@
     </tr>
   </tbody>
 </table>
-<%= link_to 'Edit', edit_bill_path(@bill) unless paid_off %>
+<%= link_to 'Edit', edit_bill_path(@bill) unless total_paid > 0 %>
