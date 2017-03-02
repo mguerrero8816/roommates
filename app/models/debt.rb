@@ -10,4 +10,8 @@ class Debt < ApplicationRecord
   def total_paid
     payments.sum(:cents)
   end
+
+  def remaining
+    cents - total_paid
+  end
 end

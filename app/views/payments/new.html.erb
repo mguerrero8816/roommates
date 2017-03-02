@@ -1,6 +1,6 @@
 <% if @debt.cents %>
-  <% debt_dollars = @debt.cents/100 %>
-  <% debt_cents = @debt.cents%100 %>
+  <% debt_dollars = @debt.remaining/100 %>
+  <% debt_cents = @debt.remaining%100 %>
 <% else %>
   <% debt_dollars = 0 %>
   <% debt_cents = 0 %>
