@@ -6,7 +6,6 @@ class BillPaymentsController < ApplicationController
 
   def pay
     @payment = Payment.new(payment_params)
-    @payment.cents = cents_to_dollars(:payment)
     @bill = Bill.find(params[:payment][:bill_id])
     if @payment.save
       Payment.last.split_credit

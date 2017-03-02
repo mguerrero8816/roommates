@@ -27,7 +27,7 @@
       <td>
         <%= cents_to_dollars(total_paid) unless paid_off %>
         <%= 'Paid' if paid_off %>
-        <%= link_to 'Pay', new_payment_path(debt_id: @bill.id) if @bill.user_id == current_user.id && !paid_off %>
+        <%= link_to 'Pay', bill_payments_path(bill_id: @bill.id) if @bill.user_id == current_user.id && !paid_off %>
       </td>
     </tr>
   </tbody>

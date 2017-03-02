@@ -1,7 +1,8 @@
 class Payment < ActiveRecord::Base
+  include MoneyConversions
   belongs_to :debt
   attr_accessor :dollars, :bill_id
-  before_validation :bill_to_debt_id
+  before_validation :bill_to_debt_id, :add_dollars_to_cents
   validates :cents, numericality: { greater_than: 0 }
   validate :cannot_overpay_bill
 

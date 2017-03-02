@@ -30,7 +30,7 @@
       <%= 'Paid' if paid_off %>
     </td>
     <td>
-      <%= link_to 'Pay', new_payment_path(debt_id: bill.bill_id) if bill.owner_id == current_user.id && !paid_off %>
+      <%= link_to 'Pay', bill_payments_path(bill_id: bill.bill_id) if bill.owner_id == current_user.id && !paid_off %>
     </td>
   </tr>
   <% if new_table_end %>
