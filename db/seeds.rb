@@ -29,6 +29,6 @@ bill_03 = Bill.create(name: 'Water', cents: 16014, apartment_id: apartment_01.id
 bill_04 = Bill.create(name: 'Internet', cents: 8000, apartment_id: apartment_01.id, user_id: jennice.id, due: Time.now + 10.days)
 bill_05 = Bill.create(name: 'Rent', cents: 250000, apartment_id: apartment_02.id, user_id: jennice.id, due: Time.now + 10.days)
 
-payment_01 = Payment.create(debt_id: bill_01.id, cents: 220000)
-payment_02 = Payment.create(debt_id: bill_02.id, cents: 10000)
-payment_03 = Payment.create(debt_id: bill_02.id, cents: 62)
+payment_01 = Payment.create(debt_id: bill_01.id, cents: 220000, paid: Time.new(2016, 1, 1))
+payment_02 = Payment.create(debt_id: bill_02.id, cents: 10000, paid: Time.new(2016, 2, 1))
+payment_03 = Payment.create(debt_id: bill_02.id, cents: 62, paid: Time.new(2016, 3, 1))
