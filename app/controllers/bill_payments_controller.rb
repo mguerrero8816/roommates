@@ -1,4 +1,6 @@
 class BillPaymentsController < ApplicationController
+  before_action :restrict_to_owner
+
   def index
     @payment = Payment.new
     @bill = Bill.find(params[:bill_id]) if params[:bill_id]
@@ -6,7 +8,8 @@ class BillPaymentsController < ApplicationController
 
   def pay
     @payment = Payment.new(payment_params)
-    @bill = Bill.find(params[:payment][:bill_id])
+    @payment.bill_id = params[:bill_id]
+    @bill = Bill.find(params[:bill_id])
     if @payment.save
       Payment.last.split_credit
       redirect_to bill_path(@bill.id)
@@ -18,6 +21,11 @@ class BillPaymentsController < ApplicationController
   private
 
   def payment_params
-    params.require(:payment).permit(:bill_id, :dollars, :cents, :paid)
+    params.require(:payment).permit(:dollars, :cents, :paid)
+  end
+
+  def restrict_to_owner
+    owner = Bill.find(params[:bill_id]).user_id == current_user.id
+    redirect_to bill_path(params[:bill_id]) unless owner
   end
 end
