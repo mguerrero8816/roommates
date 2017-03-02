@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-
-  get 'landing/home'
-
   root 'landing#home'
 
   devise_for :users
@@ -9,6 +6,11 @@ Rails.application.routes.draw do
 
   # SIMPLE ROUTES
   resources :bills
+
+  # CUSTOM ROUTES
+  resources :landing, only: [] do
+    get :home, on: :collection
+  end
 
   # NAMESPACE ROUTES
 
