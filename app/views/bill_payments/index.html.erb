@@ -1,0 +1,44 @@
+<% if @bill.cents %>
+  <% bill_dollars = @bill.remaining/100 %>
+  <% bill_cents = @bill.remaining%100 %>
+<% else %>
+  <% bill_dollars = 0 %>
+  <% bill_cents = 0 %>
+<% end %>
+
+<%= form_for(@payment, url: pay_bill_payments_path(@bill.id)) do |f| %>
+  <% if @payment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+      <ul>
+        <% @payment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :bill_id, value: @bill.id %>
+  <table>
+    <tbody>
+      <tr>
+        <td>Bill</td>
+        <td><%= link_to "#{@bill.name} for #{@bill.apartment.name}", bill_path(@bill.id) %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :dollars, 'Amount'%></td>
+        <td>
+          $ <%= f.number_field :dollars, value: bill_dollars %> . <%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, bill_cents) %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :paid, 'Date'%></td>
+        <td><%= f.date_select :paid, { order: [:month, :day, :year]} %></td>
+      </tr>
+      <tr>
+        <td><%= f.submit 'Pay' %></td>
+        <td><%= link_to 'Cancel', request.referrer %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

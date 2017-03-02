@@ -1,6 +1,7 @@
 class Payment < ActiveRecord::Base
   belongs_to :debt
-  attr_accessor :dollars
+  attr_accessor :dollars, :bill_id
+  before_validation :bill_to_debt_id
   validates :cents, numericality: { greater_than: 0 }
   validate :cannot_overpay_bill
 
@@ -18,5 +19,9 @@ class Payment < ActiveRecord::Base
   def cannot_overpay_bill
     overpaid = (debt.total_paid + cents) > debt.cents
     errors.add(debt.type.pluralize, 'cannot be overpaid') if overpaid
+  end
+
+  def bill_to_debt_id
+    self.debt_id = bill_id if bill_id
   end
 end

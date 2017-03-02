@@ -9,4 +9,10 @@ Rails.application.routes.draw do
 
   resources :bills
   resources :payments
+
+  resources :bills do
+    resources :payments, only: [:index], controller: :bill_payments do
+      post :pay, on: :collection
+    end
+  end
 end
