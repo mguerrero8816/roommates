@@ -13,8 +13,10 @@ class PaymentsController < ApplicationController
     @payment.cents = cents_to_dollars(:payment)
     @debt = Debt.find(params[:payment][:debt_id])
     if @payment.save
-      Payment.last.split_credit if @debt.type == 'Bill'
-      redirect_to 
+      if @debt.type == 'Bill'
+        Payment.last.split_credit
+        redirect_to bill_path(@debt.id)
+      end
     else
       render :new
     end
