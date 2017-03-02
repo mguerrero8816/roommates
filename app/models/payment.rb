@@ -2,6 +2,7 @@ class Payment < ActiveRecord::Base
   belongs_to :debt
   attr_accessor :dollars
   validates :cents, numericality: { greater_than: 0 }
+  validate :cannot_overpay_bill
 
   def split_credit
     debt.apartment.tenants.each do |user|
@@ -10,5 +11,12 @@ class Payment < ActiveRecord::Base
       credit_name = "Payment to #{debt.user.full_name} for #{debt.name} paid on #{paid}"
       Credit.create(user_id: user.id, name: credit_name, pay_to_id: debt.user_id, cents: cents/(debt.apartment.tenants.count-1))
     end
+  end
+
+  private
+
+  def cannot_overpay_bill
+    overpaid = (debt.total_paid + cents) > debt.cents
+    errors.add(debt.type.pluralize, 'cannot be overpaid') if overpaid
   end
 end
