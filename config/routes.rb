@@ -4,21 +4,21 @@ Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  # SIMPLE ROUTES
+  # SIMPLE RESOURCES
 
-  # CUSTOM ROUTES
+  # CUSTOM RESOURCES
   resources :landing, only: [] do
     get :home, on: :collection
   end
 
-  # NAMESPACE ROUTES
+  # NAMESPACE RESOURCES
 
-  # COMPLEX ROUTES
+  # COMPLEX RESOURCES
   resources :bills do
     resources :payments, only: [:index], controller: :bill_payments do
       post :pay, on: :collection
     end
   end
 
-  #MISC ROUTES
+  #MISC RESOURCES/ROUTES
 end

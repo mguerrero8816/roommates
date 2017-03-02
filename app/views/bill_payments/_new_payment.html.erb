@@ -1,12 +1,12 @@
-<% if @debt.cents %>
-  <% debt_dollars = @debt.remaining/100 %>
-  <% debt_cents = @debt.remaining%100 %>
+<% if @bill.cents %>
+  <% bill_dollars = @bill.remaining/100 %>
+  <% bill_cents = @bill.remaining%100 %>
 <% else %>
-  <% debt_dollars = 0 %>
-  <% debt_cents = 0 %>
+  <% bill_dollars = 0 %>
+  <% bill_cents = 0 %>
 <% end %>
 
-<%= form_for(@payment) do |f| %>
+<%= form_for(@payment, url: pay_bill_payments_path(@bill.id)) do |f| %>
   <% if @payment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
@@ -18,17 +18,17 @@
     </div>
   <% end %>
 
-  <%= f.hidden_field :debt_id, value: @debt.id %>
+  <%= f.hidden_field :bill_id, value: @bill.id %>
   <table>
     <tbody>
       <tr>
-        <td>Debt</td>
-        <td><%= link_to "#{@debt.name} for #{@debt.apartment.name}", bill_path(@debt.id) %></td>
+        <td>Bill</td>
+        <td><%= link_to "#{@bill.name} for #{@bill.apartment.name}", bill_path(@bill.id) %></td>
       </tr>
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
         <td>
-          $ <%= f.number_field :dollars, value: debt_dollars %> . <%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, debt_cents) %>
+          $ <%= f.number_field :dollars, value: bill_dollars %> . <%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, bill_cents) %>
         </td>
       </tr>
       <tr>
@@ -37,7 +37,7 @@
       </tr>
       <tr>
         <td><%= f.submit 'Pay' %></td>
-        <td><%= link_to 'Cancel', request.referrer %></td>
+        <td><%= link_to 'Cancel', root_path %></td>
       </tr>
     </tbody>
   </table>

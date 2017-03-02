@@ -1,0 +1,12 @@
+<table>
+  <thead>
+    <tr><th colspan="2">Previous Payments</th></tr>
+    <tr>
+      <th>Amount</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: 'bill_payments/payment', collection: bill.payments, as: :payment %>
+  </tbody>
+</table>

@@ -1,0 +1,4 @@
+<tr>
+  <td><%= cents_to_dollars(payment.cents) %></td>
+  <td><%= payment.paid.strftime('%B %d, %Y') if payment.paid %></td>
+</tr>
