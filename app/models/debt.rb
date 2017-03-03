@@ -1,11 +1,11 @@
 class Debt < ApplicationRecord
+  include MoneyConversions
   include PermanentObjects
-  
-  validates_presence_of :user_id, :name, :cents
+
+  validates_presence_of :user_id, :name
   belongs_to :user
   has_many :payments
-  attr_accessor :dollars
-  validates :cents, numericality: { greater_than: 0 }
+
 
   def total_paid
     payments.sum(:cents)

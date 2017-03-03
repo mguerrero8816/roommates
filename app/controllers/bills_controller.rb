@@ -16,7 +16,6 @@ class BillsController < ApplicationController
 
   def create
     @bill = Bill.new(bill_params)
-    @bill.cents = cents_to_dollars(:bill)
     if @bill.save
       redirect_to root_path
     else
@@ -53,7 +52,7 @@ class BillsController < ApplicationController
   end
 
   def bill_params
-    params.require(:bill).permit(:apartment_id, :name, :user_id, :due)
+    params.require(:bill).permit(:apartment_id, :name, :user_id, :due, :dollars, :cents)
   end
 
 end
