@@ -1,5 +1,7 @@
 class Payment < ActiveRecord::Base
   include MoneyConversions
+  include PermanentObjects
+  
   belongs_to :debt
   attr_accessor :dollars, :bill_id
   before_validation :bill_to_debt_id, :add_dollars_to_cents

@@ -1,7 +1,7 @@
 class Debt < ApplicationRecord
-  validates_presence_of :user_id
-  validates_presence_of :name
-  validates_presence_of :cents
+  include PermanentObjects
+  
+  validates_presence_of :user_id, :name, :cents
   belongs_to :user
   has_many :payments
   attr_accessor :dollars

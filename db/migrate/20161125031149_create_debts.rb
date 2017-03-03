@@ -4,6 +4,7 @@ class CreateDebts < ActiveRecord::Migration[5.0]
       t.integer  :user_id
       t.integer  :pay_to_id
       t.integer  :apartment_id
+      t.boolean  :active
       t.string   :name
       t.integer  :cents
       t.datetime :due

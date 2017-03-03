@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   # SIMPLE RESOURCES
 
   # CUSTOM RESOURCES
+  resources :payments, only: [] do
+    post :deactivate, on: :member
+  end
+
   resources :landing, only: [] do
     get :home, on: :collection
   end

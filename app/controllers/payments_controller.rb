@@ -1,8 +1,8 @@
 class PaymentsController < ApplicationController
   before_action :set_and_restrict_object
 
-  def destroy
-    @payment.destroy
+  def deactivate
+    @payment.deactivate
     redirect_to :back
   end
 

@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20170128093956) do
     t.integer  "user_id"
     t.integer  "pay_to_id"
     t.integer  "apartment_id"
+    t.boolean  "active"
     t.string   "name"
     t.integer  "cents"
     t.datetime "due"
@@ -44,6 +45,7 @@ ActiveRecord::Schema.define(version: 20170128093956) do
   create_table "payments", force: :cascade do |t|
     t.integer  "debt_id"
     t.integer  "cents"
+    t.boolean  "active"
     t.datetime "paid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
