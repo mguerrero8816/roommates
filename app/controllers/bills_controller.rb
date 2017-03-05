@@ -2,7 +2,7 @@ class BillsController < ApplicationController
   before_action :default_if_paid, only: [:edit, :update, :destroy, :pay]
 
   def index
-    @bills = Bill.all
+    @bills = Bill.where(user_id: current_user.id)
   end
 
   def show
