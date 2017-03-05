@@ -1,9 +1,9 @@
 module Reporter
-  class Home
+  class ApartmentsBills
     class << self
       # takes: integer
       # returns: hash
-      def apartments_bills(user_id)
+      def report(user_id)
         apartments = ApartmentTenant.select('apartment_tenants.id').where(user_id: user_id)
         apartments = join_apartments(apartments)
         apartments = join_bills(apartments)

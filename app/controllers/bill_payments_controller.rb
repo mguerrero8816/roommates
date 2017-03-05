@@ -9,7 +9,6 @@ class BillPaymentsController < ApplicationController
     @payment = Payment.new(payment_params)
     @payment.bill_id = params[:bill_id]
     if @payment.save
-      Payment.last.split_credit
       redirect_to bill_path(@bill.id)
     else
       render :index
