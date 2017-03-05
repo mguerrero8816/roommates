@@ -37,7 +37,7 @@ module Reporter
 
       def add_bill_payments(apartments)
         bill_ids = apartments.map(&:bill_id)
-        payments = Payment.where(debt_id: bill_ids)
+        payments = Payment.where(debt_id: bill_ids, active: true)
         apartments.each do |row|
           row.amount_paid = 0
           next if row.bill_id.nil?
