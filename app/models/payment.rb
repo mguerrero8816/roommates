@@ -3,10 +3,17 @@ class Payment < ActiveRecord::Base
   include PermanentObjects
 
   belongs_to :debt
-  attr_accessor :bill_id
   before_validation :bill_to_debt_id
   validate :cannot_overpay_bill
   validates_presence_of :paid
+
+  ### EXTRA ATTRIBUTES ###
+  attr_accessor :bill_id
+  alias_attribute :bill_id, :debt_id
+  def user_id
+    debt.user_id
+  end
+  ### END EXTRA ATTRIBUTES ###
 
   def split_credit
     debt.apartment.tenants.each do |user|
@@ -20,7 +27,7 @@ class Payment < ActiveRecord::Base
   private
 
   def cannot_overpay_bill
-    overpaid = (debt.total_paid + cents) > debt.cents
+    overpaid = (debt.total_paid(id) + cents) > debt.cents
     errors.add(debt.type.pluralize, 'cannot be overpaid') if overpaid
   end
 

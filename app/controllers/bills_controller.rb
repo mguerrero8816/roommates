@@ -1,5 +1,5 @@
 class BillsController < ApplicationController
-  before_filter :default_if_paid, only: [:edit, :update, :destroy, :pay]
+  before_action :default_if_paid, only: [:edit, :update, :destroy, :pay]
 
   def index
     @bills = Bill.all
@@ -34,10 +34,6 @@ class BillsController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def destroy
-    # TODO
   end
 
   private

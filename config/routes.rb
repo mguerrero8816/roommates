@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   # NAMESPACE RESOURCES
 
   # COMPLEX RESOURCES
-  resources :bills do
+  resources :bills, except: [:destroy] do
+    post :deactivate, on: :member
     resources :payments, only: [:index], controller: :bill_payments do
       post :pay, on: :collection
     end

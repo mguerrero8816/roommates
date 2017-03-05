@@ -3,7 +3,7 @@ class CreatePayments < ActiveRecord::Migration[5.0]
     create_table :payments do |t|
       t.integer  :debt_id
       t.integer  :cents
-      t.boolean  :active
+      t.boolean  :active, default: true
       t.datetime :paid
 
       t.timestamps

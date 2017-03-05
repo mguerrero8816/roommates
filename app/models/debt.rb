@@ -6,9 +6,12 @@ class Debt < ApplicationRecord
   belongs_to :user
   has_many :payments
 
-
-  def total_paid
-    payments.sum(:cents)
+  def total_paid(current_id=nil)
+    if current_id
+      payments.where('id != ? AND active = true', current_id).sum(:cents)
+    else
+      payments.where(active: true).sum(:cents)
+    end
   end
 
   def remaining
