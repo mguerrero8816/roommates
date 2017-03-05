@@ -33,4 +33,5 @@
   </tbody>
 </table>
 <%= link_to 'Edit', edit_bill_path(@bill) unless total_paid > 0 %>
-<%= render partial: 'bill_payments/payments_table', locals: { bill: @bill } %>
+<%= render partial: 'bill_payments/active_payments_table', locals: { bill: @bill } %>
+<%= render partial: 'bill_payments/inactive_payments_table', locals: { bill: @bill } %>
