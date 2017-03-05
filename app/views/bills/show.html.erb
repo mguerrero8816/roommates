@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <td>Due Date:</td>
-      <td><%= @bill.due.strftime('%B %d, %Y') %></td>
+      <td><%= standard_date(@bill.due) %></td>
     </tr>
     <tr>
       <td>Paid:</td>
