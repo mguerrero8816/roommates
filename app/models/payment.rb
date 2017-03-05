@@ -6,6 +6,7 @@ class Payment < ActiveRecord::Base
   before_validation :bill_to_debt_id
   validate :cannot_overpay_bill
   validates_presence_of :paid
+  after_save :split_if_paid_off
 
   ### EXTRA ATTRIBUTES ###
   attr_accessor :bill_id
@@ -15,13 +16,8 @@ class Payment < ActiveRecord::Base
   end
   ### END EXTRA ATTRIBUTES ###
 
-  def split_credit
-    debt.apartment.tenants.each do |user|
-      # skip the person who paid the debt
-      next if debt.user_id == user.id
-      credit_name = "Payment to #{debt.user.full_name} for #{debt.name} paid on #{paid}"
-      Credit.create(user_id: user.id, name: credit_name, pay_to_id: debt.user_id, cents: cents/(debt.apartment.tenants.count-1))
-    end
+  def split_if_paid_off
+    debt.split_credit if debt.total_paid
   end
 
   private
