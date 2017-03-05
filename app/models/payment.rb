@@ -17,7 +17,7 @@ class Payment < ActiveRecord::Base
   ### END EXTRA ATTRIBUTES ###
 
   def split_if_paid_off
-    debt.split_credit if debt.total_paid && debt.type == 'Bill'
+    debt.split_credit if debt.paid_off && debt.type == 'Bill'
   end
 
   private
