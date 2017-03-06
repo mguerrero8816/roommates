@@ -1,5 +1,12 @@
-<table>
+<table class="table">
   <thead>
+    <tr>
+      <th>Bill</th>
+      <th>Apartment</th>
+      <th>Due Date</th>
+      <th>Amount</th>
+      <th>Paid</th>
+    </tr>
   </thead>
   <tbody>
     <%= render partial: 'bills/bill', collection: bills, as: :bill %>
