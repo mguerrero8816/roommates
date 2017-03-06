@@ -4,7 +4,6 @@ class Bill < Debt
 
   def split_credit
     split_factor = apartment.tenants.count
-    debt_owner = user.full_name
     last_payment = active_payments.last
     credit_name = "Credit for #{name} (#{last_payment.paid.strftime('%m/%d/%y')})"
     apartment.tenants.each do |user|

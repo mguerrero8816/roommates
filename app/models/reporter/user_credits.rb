@@ -3,16 +3,16 @@ module Reporter
     class << self
       def report(user_id)
         credits = Credit.select('debts.*').where(pay_to_id: user_id)
-        credits = join_credit_owners(credits)
+        credits = join_credit_payers(credits)
         credits = join_apartments(credits)
         credits
       end
 
-      def join_credit_owners(credits)
-        credits.select('owners.id AS owner_id,
-                        owners.first_name AS owner_first_name,
-                        owners.last_name AS owner_last_name')
-               .joins('LEFT JOIN users AS owners ON debts.user_id = owners.id')
+      def join_credit_payers(credits)
+        credits.select('payers.id AS payer_id,
+                        payers.first_name AS payer_first_name,
+                        payers.last_name AS payer_last_name')
+               .joins('LEFT JOIN users AS payers ON debts.user_id = payers.id')
       end
 
       def join_apartments(credits)

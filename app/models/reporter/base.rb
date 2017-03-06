@@ -1,11 +1,11 @@
 module Reporter
   class Base
     class << self
-      def join_bill_owners(objects)
-        objects.select('owners.id AS owner_id,
-                        owners.first_name AS owner_first_name,
-                        owners.last_name AS owner_last_name')
-               .joins('LEFT JOIN users AS owners ON bills.user_id = owners.id')
+      def join_bill_payers(objects)
+        objects.select('payers.id AS payer_id,
+                        payers.first_name AS payer_first_name,
+                        payers.last_name AS payer_last_name')
+               .joins('LEFT JOIN users AS payers ON bills.user_id = payers.id')
       end
 
       def add_bill_payments(objects)

@@ -7,7 +7,7 @@ module Reporter
         apartments = ApartmentTenant.select('apartment_tenants.id').where(user_id: user_id)
         apartments = join_apartments(apartments)
         apartments = join_bills(apartments)
-        apartments = join_bill_owners(apartments)
+        apartments = join_bill_payers(apartments)
         apartments = add_bill_payments(apartments)
         apartments
       end
