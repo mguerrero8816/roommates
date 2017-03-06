@@ -5,13 +5,13 @@ module Reporter
         bills = User.where(id: user_id)
         bills = join_bills(bills)
         bills = join_apartments(bills)
-        bills = join_bill_owners(bills)
         bills = add_bill_payments(bills)
         bills
       end
 
       def join_bills(bills)
         bills.select('bills.id AS bill_id,
+                      bills.user_id AS user_id,
                       bills.name AS bill_name,
                       bills.cents AS bill_cents,
                       bills.due AS bill_due')
