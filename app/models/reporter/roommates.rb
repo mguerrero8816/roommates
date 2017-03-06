@@ -5,7 +5,7 @@ module Reporter
         users = ApartmentTenant.where(user_id: user_id)
         users = join_apartments(users)
         users = join_roommates(users)
-        roommates = build_roommates_table(users)
+        roommates = build_roommates_table(users, user_id)
         roommates
       end
 
@@ -24,20 +24,24 @@ module Reporter
              .joins('LEFT JOIN users AS roommates ON tenants.user_id = roommates.id')
       end
 
-      def build_roommates_table(users)
+      def build_roommates_table(users, user_id)
         table = []
         users.each do |user|
-          { user: user, debts: query_debts(user.id), credits: query_credits(user.id) }
+          next if user.roommate_id == user_id
+          table << { user: user, debts: query_credits(user_id, user.roommate_id), credits: query_credits(user.roommate_id, user_id) }
         end
         table
       end
 
-      def query_debts(user_id)
-        []
+      def query_credits(pay_to_id, user_id)
+        credits = Credit.select('debts.*').where(pay_to_id: pay_to_id, user_id: user_id)
+        credits = join_credit_apartments(credits)
+        credits
       end
 
-      def query_credits(user_id)
-        []
+      def join_credit_apartments(credits)
+        credits.select('apartments.name AS apartment_name')
+               .joins('LEFT JOIN apartments ON debts.apartment_id = apartments.id')
       end
     end
   end

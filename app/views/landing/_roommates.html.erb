@@ -1,2 +1,11 @@
-<%= render partial: 'roommate_debts', locals: { debts: roommate[:debts] } %>
-<%= render partial: 'roommate_credits', locals: { credits: roomamate[:credits] } %>
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= name_with_initial_from_sql(roommate[:user], :roommate) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: 'roommate_debts', locals: { debts: roommate[:debts] } %>
+    <%= render partial: 'roommate_credits', locals: { credits: roommate[:credits] } %>
+  </tbody>
+</table>

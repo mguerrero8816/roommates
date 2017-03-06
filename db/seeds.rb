@@ -21,7 +21,6 @@ apartment_01.tenants << danny
 apartment_02 = Apartment.create(name: 'New Place', address: '67890 Up Road')
 apartment_02.tenants << mike
 apartment_02.tenants << jennice
-apartment_02.tenants << yuki
 
 bill_01 = Bill.create(name: 'Rent', cents: 220000, apartment_id: apartment_01.id, user_id: yuki.id, due: Time.now + 10.days)
 bill_02 = Bill.create(name: 'Electric', cents: 10062, apartment_id: apartment_01.id, user_id: mike.id, due: Time.now + 10.days)
