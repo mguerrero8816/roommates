@@ -1,0 +1,16 @@
+<table class="table">
+  <thead>
+    <tr style="text-align: left">
+      <th>Bill</th>
+      <th>Apartment</th>
+      <th>Owner</th>
+      <th>Amount</th>
+      <th>Due Date</th>
+      <th>Paid</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: 'user_bill', collection: user_bills, as: :bill %>
+  </tbody>
+</table>

@@ -20,20 +20,7 @@
       </thead>
       <tbody>
   <% end %>
-  <tr style="text-align: left">
-    <td><%= link_to bill.bill_name, bill_path(bill.bill_id) %></td>
-    <td><%= name_with_initial_from_sql(bill, :owner) %></td>
-    <td style="text-align: right"><%= cents_to_dollars(bill.bill_cents) %></td>
-    <td><%= standard_date(bill.bill_due) || 'Pending' %></td>
-    <td style="text-align: right">
-      <% paid_off = bill.amount_paid == bill.bill_cents %>
-      <%= cents_to_dollars(bill.amount_paid) if !paid_off %>
-      <%= 'Paid' if paid_off %>
-    </td>
-    <td>
-      <%= link_to 'Pay', bill_payments_path(bill_id: bill.bill_id) if bill.owner_id == current_user.id && !paid_off %>
-    </td>
-  </tr>
+    <%= render partial: 'apartment_bill', locals: { bill: bill } %>
   <% if new_table_end %>
       </tbody>
     </table>

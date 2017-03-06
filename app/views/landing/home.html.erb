@@ -1,14 +1,14 @@
 <div class="col-sm-6">
-  <h1>My Debts</h1>
-  <%= 'test' %>
-</div>
-<div class="col-sm-6">
   <h1>My Credits</h1>
   <%= 'test' %>
 </div>
 <div class="col-sm-6">
-  <h1>My Bills</h1>
+  <h1>Credits To Me</h1>
   <%= 'test' %>
+</div>
+<div class="col-sm-6">
+  <h1>My Bills</h1>
+  <%= render partial: 'user_bills', locals: { user_bills: @user_bills } %>
 </div>
 <div class="col-sm-6">
   <h1>My Apartments</h1>
