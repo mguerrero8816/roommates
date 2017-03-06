@@ -6,7 +6,7 @@ class Bill < Debt
     split_factor = apartment.tenants.count
     debt_owner = user.full_name
     last_payment = active_payments.last
-    credit_name = "Payment to #{debt_owner} for #{name} fully paid on #{last_payment.paid}"
+    credit_name = "Credit for #{name} (#{last_payment.paid.strftime('%m/%d/%y')})"
     apartment.tenants.each do |user|
       # skip the person who paid the debt
       next if user_id == user.id
