@@ -1,14 +1,6 @@
 <div class="col-sm-6">
-  <h1>My Debts</h1>
-  <%= render partial: 'debts/user_debts', locals: { user_debts: @user_debts } %>
-</div>
-<div class="col-sm-6">
-  <h1>My Credits</h1>
-  <%= render partial: 'credits/user_credits', locals: { user_credits: @user_credits} %>
-</div>
-<div class="col-sm-6">
-  <h1>My Bills</h1>
-  <%= render partial: 'bills/user_bills', locals: { user_bills: @user_bills } %>
+  <h1>My Roommates</h1>
+  <%= render partial: 'roommates', collection: @roommates, as: :roommate %>
 </div>
 <div class="col-sm-6">
   <h1>My Apartments</h1>
