@@ -28,7 +28,7 @@ module Reporter
         table = []
         users.each do |user|
           next if user.roommate_id == user_id
-          table << { user: user, debts: query_credits(user_id, user.roommate_id), credits: query_credits(user.roommate_id, user_id) }
+          table << { user: user, lends: query_credits(user_id, user.roommate_id), owes: query_credits(user.roommate_id, user_id) }
         end
         table
       end

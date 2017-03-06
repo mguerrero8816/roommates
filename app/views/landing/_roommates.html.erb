@@ -2,10 +2,11 @@
   <thead>
     <tr>
       <th><%= name_with_initial_from_sql(roommate[:user], :roommate) %></th>
+      <th><%= roommate[:user].apartment_name %></th>
     </tr>
   </thead>
   <tbody>
-    <%= render partial: 'roommate_debts', locals: { debts: roommate[:debts] } %>
-    <%= render partial: 'roommate_credits', locals: { credits: roommate[:credits] } %>
+    <%= render partial: 'credit_owes', locals: { owes: roommate[:owes] } %>
+    <%= render partial: 'credit_lends', locals: { lends: roommate[:lends] } %>
   </tbody>
 </table>
