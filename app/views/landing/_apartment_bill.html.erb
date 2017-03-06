@@ -1,9 +1,9 @@
 <tr>
   <td><%= link_to bill.bill_name, bill_path(bill.bill_id) %></td>
   <td><%= name_with_initial_from_sql(bill, :payer) %></td>
-  <td style="text-align: right"><%= cents_to_dollars(bill.bill_cents) %></td>
+  <td class="numbers"><%= cents_to_dollars(bill.bill_cents) %></td>
   <td><%= standard_date(bill.bill_due) || 'Pending' %></td>
-  <td style="text-align: right">
+  <td class="numbers">
     <% paid_off = bill.amount_paid == bill.bill_cents %>
     <%= cents_to_dollars(bill.amount_paid) if !paid_off %>
     <%= 'Paid' if paid_off %>
