@@ -2,5 +2,5 @@
   <td><%= credit.name %></td>
   <td><%= name_with_initial_from_sql(credit, :payer) %></td>
   <td><%= credit.apartment_name %></td>
-  <td><%= cents_to_dollars(credit.cents) %></td>
+  <td class="numbers"><%= cents_to_dollars(credit.cents) %></td>
 </tr>
