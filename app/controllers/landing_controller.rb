@@ -4,5 +4,6 @@ class LandingController < ApplicationController
     @user_bills = Reporter::UserBills.report(current_user.id)
     @user_credits = Reporter::UserCredits.report(current_user.id)
     @user_debts = Reporter::UserDebts.report(current_user.id)
+    @roommates = Reporter::Roommates.report(current_user.id)
   end
 end
