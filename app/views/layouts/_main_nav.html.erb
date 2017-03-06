@@ -1,5 +1,12 @@
-<div id='main-nav'>
-  <%= link_to 'Home', root_path %>
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %></br>
-  Logged In As: <%= current_user.email %>
-</div>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><%= link_to 'Home', root_path %></li>
+      <li><%= link_to 'Bills', bills_path %></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+      <li><p class='navbar-text'>Logged In As: <%= current_user.email %></p></li>
+    </ul>
+  </div>
+</nav>
