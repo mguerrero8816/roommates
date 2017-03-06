@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20170128093956) do
   create_table "debts", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "pay_to_id"
+    t.integer  "bill_id"
     t.integer  "apartment_id"
     t.boolean  "active",       default: true
     t.string   "name"

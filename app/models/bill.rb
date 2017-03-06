@@ -10,7 +10,7 @@ class Bill < Debt
     apartment.tenants.each do |user|
       # skip the person who paid the debt
       next if user_id == user.id
-      Credit.create(user_id: user.id, name: credit_name, pay_to_id: user_id, cents: cents/split_factor)
+      Credit.create(user_id: user.id, apartment_id: apartment_id, bill_id: id, name: credit_name, pay_to_id: user_id, cents: cents/split_factor)
     end
   end
 end
