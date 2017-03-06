@@ -2,11 +2,12 @@
   <% new_table_start = bill.apartment_id != apartments_bills[index-1].apartment_id %>
   <% new_table_end = apartments_bills[index+1].nil? || bill.apartment_id != apartments_bills[index+1].apartment_id %>
   <% if new_table_start %>
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th><%= bill.apartment_name %></th>
           <th><%= link_to 'Add New Bill', new_bill_path(apartment_id: bill.apartment_id)%></th>
+          <th colspan="4"></th>
         </tr>
         <tr style="text-align: left">
           <th>Bill</th>
