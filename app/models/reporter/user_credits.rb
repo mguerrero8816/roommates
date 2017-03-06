@@ -8,6 +8,8 @@ module Reporter
         credits
       end
 
+      private
+
       def join_credit_payers(credits)
         credits.select('payers.id AS payer_id,
                         payers.first_name AS payer_first_name,

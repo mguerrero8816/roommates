@@ -9,6 +9,8 @@ module Reporter
         bills
       end
 
+      private
+
       def join_bills(bills)
         bills.select('bills.id AS bill_id,
                       bills.user_id AS user_id,

@@ -1,6 +1,6 @@
 <div class="col-sm-6">
   <h1>My Debts</h1>
-  <%= 'test' %>
+  <%= render partial: 'user_debts', locals: { user_debts: @user_debts } %>
 </div>
 <div class="col-sm-6">
   <h1>My Credits</h1>

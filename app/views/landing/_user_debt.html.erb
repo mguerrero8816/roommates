@@ -1,0 +1,6 @@
+<tr>
+  <td><%= debt.name %></td>
+  <td><%= name_with_initial_from_sql(debt, :owner) %></td>
+  <td><%= debt.apartment_name %></td>
+  <td><%= cents_to_dollars(debt.cents) %></td>
+</tr>
