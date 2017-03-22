@@ -2,10 +2,10 @@ module Reporter
   class Roommates < Reporter::Base
     class << self
       def report(user_id)
-        users = ApartmentTenant.where(user_id: user_id)
-        users = join_apartments(users)
-        users = join_roommates(users)
-        roommates = build_roommates_table(users, user_id)
+        roommates = ApartmentTenant.where(user_id: user_id)
+        roommates = join_apartments(roommates)
+        roommates = join_roommates(roommates)
+        roommates = build_roommates_table(roommates, user_id)
         roommates
       end
 
@@ -24,11 +24,20 @@ module Reporter
              .joins('LEFT JOIN users AS roommates ON tenants.user_id = roommates.id')
       end
 
-      def build_roommates_table(users, user_id)
+      def roommate_credit_query(user_id, roommate_id)
+        credits = Credit.select('debts.*').where('(pay_to_id = ? AND user_id = ?) OR (pay_to_id = ? AND user_id = ?)', user_id, roommate_id, roommate_id, user_id)
+        credits = join_credit_apartments(credits)
+        credits
+      end
+
+      def build_roommates_table(roommates, user_id)
         table = []
-        users.each do |user|
-          next if user.roommate_id == user_id
-          table << { user: user, lends: query_credits(user_id, user.roommate_id), owes: query_credits(user.roommate_id, user_id) }
+        roommates_added = []
+        roommates.each do |roommate|
+          next if roommates_added.include?(roommate.roommate_id)
+          next if roommate.roommate_id == user_id
+          table << { user: roommate, credits: roommate_credit_query(user_id, roommate.roommate_id) }
+          roommates_added << roommate.roommate_id
         end
         table
       end
