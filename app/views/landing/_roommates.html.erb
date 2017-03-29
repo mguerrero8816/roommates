@@ -1,16 +1,27 @@
 <table class="table">
   <thead>
     <tr>
-      <th colspan="4"><%= name_with_initial_from_sql(roommate[:user], :roommate) %></th>
+      <th colspan=4><%= name_with_initial_from_sql(roommate[:user], :roommate) %></th>
     </tr>
     <tr>
       <th>Credit</th>
       <th>Apartment</th>
-      <th>Owed</th>
-      <th>Lent</th>
+      <th class="numbers">Owed</th>
+      <th class="numbers">Lent</th>
     </tr>
   </thead>
   <tbody>
     <%= render partial: 'roommate_balance', collection: roommate[:credits], as: :credit %>
+    <tr>
+      <td colspan=4 class="numbers">
+        <% if roommate[:total_balance] == 0 %>
+          Even balance
+        <% elsif roommate[:total_balance] > 0 %>
+          <%= roommate[:user].roommate_first_name %> owes you: <%= cents_to_dollars(roommate[:total_balance]) %>
+        <% else %>
+          You owe <%= roommate[:user].roommate_first_name %>: <%= cents_to_dollars(roommate[:total_balance] * -1) %>
+        <% end %>
+      </td>
+    </tr>
   </tbody>
 </table>

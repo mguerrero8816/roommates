@@ -2,6 +2,6 @@
 <tr>
   <td><%= credit.name %></td>
   <td><%= credit.apartment_name %></td>
-  <td><%= cents_to_dollars(credit.cents) unless pay_to_current_user %></td>
-  <td><%= cents_to_dollars(credit.cents) if pay_to_current_user %></td>
+  <td class="numbers"><%= cents_to_dollars(credit.cents) unless pay_to_current_user %></td>
+  <td class="numbers"><%= cents_to_dollars(credit.cents) if pay_to_current_user %></td>
 </tr>
