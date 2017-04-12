@@ -19,7 +19,7 @@
         <% elsif roommate[:total_balance] > 0 %>
           <%= roommate[:user].roommate_first_name %> owes you: <%= cents_to_dollars(roommate[:total_balance]) %>
         <% else %>
-          You owe <%= roommate[:user].roommate_first_name %>: <%= cents_to_dollars(roommate[:total_balance] * -1) %>
+          You owe <%= roommate[:user].roommate_first_name %>: <%= cents_to_dollars(roommate[:total_balance] * -1) %> <%= link_to 'Pay', new_user_payment_path(user_id: 1) %>
         <% end %>
       </td>
     </tr>

@@ -27,5 +27,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users do
+    resources :payments, only: [:index, :new], controller: :user_payments do
+      post :pay, on: :collection
+    end
+  end
+
   #MISC RESOURCES/ROUTES
 end
