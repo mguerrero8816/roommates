@@ -22,15 +22,11 @@ Rails.application.routes.draw do
   # COMPLEX RESOURCES
   resources :bills, except: [:destroy] do
     post :deactivate, on: :member
-    resources :payments, only: [:index], controller: :bill_payments do
-      post :pay, on: :collection
-    end
+    resources :payments, only: [:index, :create], controller: :bill_payments
   end
 
   resources :users do
-    resources :payments, only: [:index, :new], controller: :user_payments do
-      post :pay, on: :collection
-    end
+    resources :payments, only: [:index, :create], controller: :user_payments
   end
 
   #MISC RESOURCES/ROUTES

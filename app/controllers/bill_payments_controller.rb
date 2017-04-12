@@ -5,7 +5,7 @@ class BillPaymentsController < ApplicationController
     @payment = Payment.new
   end
 
-  def pay
+  def create
     @payment = Payment.new(payment_params)
     @payment.bill_id = params[:bill_id]
     if @payment.save

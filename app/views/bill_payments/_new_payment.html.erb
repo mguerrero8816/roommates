@@ -6,7 +6,7 @@
   <% bill_cents = 0 %>
 <% end %>
 
-<%= form_for(@payment, url: pay_bill_payments_path(@bill.id)) do |f| %>
+<%= form_for(@payment, url: bill_payments_path(@bill.id)) do |f| %>
   <% if @payment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
