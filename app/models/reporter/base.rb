@@ -10,17 +10,21 @@ module Reporter
 
       def add_bill_payments(objects)
         bill_ids = objects.map(&:bill_id)
-        payments = Payment.where(debt_id: bill_ids, active: true)
-        objects.each do |row|
-          row.amount_paid = 0
-          next if row.bill_id.nil?
-          payments.each do |payment|
-            next if payment.debt_id.nil?
-            if payment.debt_id == row.bill_id
-              row.amount_paid += payment.cents
-            end
-          end
+        payments = Payment.where(payable_id: bill_ids, payable_type: 'Bill', active: true)
+        payment_data = {}
+        payments.each do |payment|
+          bill_key = payment.payable_id.to_s.to_sym
+          payment_data[bill_key] = 0 if payment_data[bill_key].nil?
+          payment_data[bill_key] += payment.cents
         end
+        objects.each do |object|
+          object.class_eval { attr_accessor :amount_paid }
+          object.amount_paid = 0
+          bill_key = object.bill_id.to_s.to_sym
+          next if object.bill_id.nil? || payment_data[bill_key].nil?
+          object.amount_paid = payment_data[bill_key]
+        end
+        objects
       end
     end
   end
