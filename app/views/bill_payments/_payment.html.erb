@@ -1,5 +1,5 @@
 <tr class="<%= 'inactive' unless payment.active %>">
   <td><%= cents_to_dollars(payment.cents) %></td>
   <td><%= standard_date(payment.paid) %></td>
-  <td><%= link_to('Cancel', deactivate_payment_path(payment.id), method: :post) if payment.active && current_user.id == payment.user_id %></td>
+  <td><%= link_to('Cancel', deactivate_payment_path(payment.id), method: :post) if payment.active && current_user.id == payment.payable.user_id %></td>
 </tr>

@@ -10,7 +10,7 @@ module Reporter
 
       def add_bill_payments(objects)
         bill_ids = objects.map(&:bill_id)
-        payments = Payment.where(payable_id: bill_ids, payable_type: 'Bill', active: true)
+        payments = Payment.where(payable_id: bill_ids, payable_type: 'Debt', active: true)
         payment_data = {}
         payments.each do |payment|
           bill_key = payment.payable_id.to_s.to_sym
