@@ -4,7 +4,7 @@ class Debt < ApplicationRecord
 
   validates_presence_of :user_id, :name
   belongs_to :user
-  has_many :payments
+  has_many   :payments, dependent: :destroy, as: :payable
 
   def active_payments
     payments.where(active: true).order(:paid)

@@ -44,12 +44,13 @@ ActiveRecord::Schema.define(version: 20170128093956) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.integer  "debt_id"
+    t.integer  "payable_id"
+    t.string   "payable_type"
     t.integer  "cents"
-    t.boolean  "active",     default: true
+    t.boolean  "active",       default: true
     t.datetime "paid"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "users", force: :cascade do |t|
