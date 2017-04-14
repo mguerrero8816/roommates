@@ -7,7 +7,7 @@ class BillPaymentsController < ApplicationController
 
   def create
     @payment = Payment.new(payment_params)
-    @payment.bill_id = params[:bill_id]
+    @payment.payable = @bill
     if @payment.save
       redirect_to bill_path(@bill.id)
     else
