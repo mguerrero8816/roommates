@@ -7,6 +7,10 @@ class Payment < ActiveRecord::Base
   validates_presence_of :paid
   after_save :split_if_paid_off
 
+  def user_id
+    payable.user_id if payable_type == 'Debt'
+  end
+
   def split_if_paid_off
     payable.split_credit if payable_type == 'Debt' && payable.paid_off
   end

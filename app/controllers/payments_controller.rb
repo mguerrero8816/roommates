@@ -10,6 +10,6 @@ class PaymentsController < ApplicationController
 
   def set_and_restrict_object
     @payment = Payment.find(params[:id])
-    restrict_to_owner(@payment, bill_path(@payment.bill_id))
+    restrict_to_owner(@payment, bill_path(@payment.payable_id))
   end
 end
