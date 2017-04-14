@@ -8,7 +8,7 @@ class Payment < ActiveRecord::Base
   after_save :split_if_paid_off
 
   def split_if_paid_off
-    payable.split_credit if payable_type == 'Bill' && payable.paid_off
+    payable.split_credit if payable_type == 'Debt' && payable.paid_off
   end
 
   private
