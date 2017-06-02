@@ -36,8 +36,12 @@
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
         <td>
-          $ <%= f.number_field :dollars, value: bill_dollars %> . <%= f.select :cents, options_for_select((0..99).map{|i| [(i < 10 ? '0' << i.to_s : i), i]}, bill_cents) %>
+          $ <%= f.number_field :dollars, value: bill_dollars, min: 0 %> . <%= f.number_field :cents, value: bill_cents, min: 0, max: 99 %>
         </td>
+      </tr>
+      <tr>
+        <td><label>Split</label></td>
+        <td><span id="set-even">Even</span> | <span id="set-special" class="fake-link">Special</span><div id="special-split"></div></td>
       </tr>
       <tr>
         <td><%= f.label :due, 'Due Date' %></td>
@@ -50,3 +54,42 @@
     </tbody>
   </table>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $(document).on('click', '#set-special.fake-link', function(){
+      $(this).removeClass('fake-link')
+      $("#set-even").addClass('fake-link')
+      generate_split_options()
+    })
+
+    $(document).on('click', '#set-even.fake-link', function(){
+      $(this).removeClass('fake-link')
+      $("#set-special").addClass('fake-link')
+      remove_split_options()
+    })
+  })
+
+  function generate_split_options(){
+    $.ajax({
+      type: "GET",
+      url: "/bills/get_split_users",
+      data: {
+        apartment_id: $("#bill_apartment_id option:selected").val()
+      },
+      success: function(data){
+        set_user_options(data)
+      }
+    })
+    $("#special-split").append('test')
+  }
+
+  function set_user_options(users){
+    console.log(users)
+  }
+
+  function remove_split_options(){
+    $("#special-split").empty()
+  }
+
+</script>

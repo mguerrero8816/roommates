@@ -1,0 +1,13 @@
+.numbers {
+  text-align: right;
+}
+
+.fake-link {
+  cursor: pointer;
+  color: #337ab7;
+  text-decoration: none;
+  &:hover {
+    color: #23527c;
+    text-decoration: underline;
+  }
+}

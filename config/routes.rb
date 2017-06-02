@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   # COMPLEX RESOURCES
   resources :bills, except: [:destroy] do
+    get  :get_split_users, on: :collection
     post :deactivate, on: :member
     resources :payments, only: [:index, :create], controller: :bill_payments
   end

@@ -36,6 +36,11 @@ class BillsController < ApplicationController
     end
   end
 
+  def get_split_users
+    users = User.select('users.id, users.first_name, users.last_name').where('apartment_tenants.apartment_id = ?', params[:apartment_id]).joins('LEFT JOIN apartment_tenants ON users.id = apartment_tenants.user_id')
+    render json: users
+  end
+
   private
 
   def default_if_paid
