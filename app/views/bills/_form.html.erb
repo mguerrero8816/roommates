@@ -66,7 +66,7 @@
     $(document).on('click', '#set-even.fake-link', function(){
       $(this).removeClass('fake-link')
       $("#set-special").addClass('fake-link')
-      remove_split_options()
+      $("#special-split").empty()
     })
   })
 
@@ -81,15 +81,22 @@
         set_user_options(data)
       }
     })
-    $("#special-split").append('test')
   }
 
   function set_user_options(users){
-    console.log(users)
-  }
-
-  function remove_split_options(){
-    $("#special-split").empty()
+    var splitTable = $("<table><tbody></tbody></table>")
+    users.forEach(function(user, index){
+      var userSplit = $("<tr></tr>")
+      var userName = "<td>" + user['first_name'] + ' ' + user['last_name'] + "</td>"
+      userSplit.append(userName)
+      var userDollars = '<td><input min="0" type="number" class="user_split" name="user_dollars_split_' + user['id'] + '" data-lock="' + user['id'] + '">.'
+      var userCents = '<input min="0" max="99" type="number" class="user_split" name="user_cents_split_' + user['id'] + '" data-lock="' + user['id'] + '"></td>'
+      userSplit.append(userDollars + userCents)
+      var userLock = '<td><input type="checkbox" data-lock="' + user['id'] + '">Lock</td>'
+      userSplit.append(userLock)
+      splitTable.append(userSplit)
+    })
+    $("#special-split").append(splitTable)
   }
 
 </script>
