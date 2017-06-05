@@ -111,18 +111,8 @@
     var availableSplits = unlockedIds.length
     if(availableSplits == 0){ return false }
     var availableCents = getAvailableCents(lockedIds)
-
     if(availableCents < 0){ return false }
-    var splitValue = parseInt(availableCents/availableSplits)
-    var splitRemainder = availableCents%availableSplits
-    unlockedIds.forEach(function(unlockedId, index){
-      var splitAmount = splitValue
-      if(index == 0){ splitAmount += splitRemainder}
-      var setDollars = parseInt(splitAmount/100)
-      var setCents = splitAmount%100
-      $('.split_dollars[data-lock="' + unlockedId + '"]').val(setDollars)
-      $('.split_cents[data-lock="' + unlockedId + '"]').val(setCents)
-    })
+    splitAvailableCents(unlockedIds, availableCents, availableSplits)
   }
 
   function getLockedIds(){
@@ -147,6 +137,19 @@
       totalLockedCents += lockedCents
     })
     return totalCents - totalLockedCents
+  }
+
+  function splitAvailableCents(unlockedIds, availableCents, availableSplits){
+    var splitValue = parseInt(availableCents/availableSplits)
+    var splitRemainder = availableCents%availableSplits
+    unlockedIds.forEach(function(unlockedId, index){
+      var splitAmount = splitValue
+      if(index == 0){ splitAmount += splitRemainder}
+      var setDollars = parseInt(splitAmount/100)
+      var setCents = splitAmount%100
+      $('.split_dollars[data-lock="' + unlockedId + '"]').val(setDollars)
+      $('.split_cents[data-lock="' + unlockedId + '"]').val(setCents)
+    })
   }
 
 </script>
