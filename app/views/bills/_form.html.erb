@@ -74,6 +74,17 @@
       var selectedLockId = $(this).data('lock')
       setSplit(selectedLockId)
     })
+
+    $(document).on("change", ".split-lock", function(){
+      var selectedLockId = $(this).data('lock')
+      if(this.checked){
+        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", true);
+        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", true);
+      } else {
+        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", false);
+        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", false);
+      }
+    })
   })
 
   function generateSplitOptions(){
