@@ -70,7 +70,10 @@
     })
 
     $(".bill-value").change(setSplit)
-    $(document).on("change", ".user_split", setSplit)
+    $(document).on("change", ".user_split", function(){
+      var selectedLockId = $(this).data('lock')
+      setSplit(selectedLockId)
+    })
   })
 
   function generateSplitOptions(){
@@ -104,15 +107,23 @@
     $("#special-split-form").append('<input type="hidden" id="special-split" name="special_split" value=true>')
   }
 
-  function setSplit(){
+  function setSplit(selectedLockId=0){
     if($("#special-split").length == 0){ return false }
     var lockedIds = getLockedIds()
     var unlockedIds = getUnlockedIds()
     var availableSplits = unlockedIds.length
-    if(availableSplits == 0){ return false }
+    if(availableSplits == 0){
+      return false
+    } else if (availableSplits > 1) {
+      var selectedIndex = unlockedIds.indexOf(selectedLockId)
+      if(selectedIndex > -1){
+        lockedIds[lockedIds.length] = selectedLockId
+        unlockedIds.splice(selectedIndex, 1)
+      }
+    }
     var availableCents = getAvailableCents(lockedIds)
     if(availableCents < 0){ return false }
-    splitAvailableCents(unlockedIds, availableCents, availableSplits)
+    splitAvailableCents(unlockedIds, availableCents)
   }
 
   function getLockedIds(){
@@ -139,7 +150,8 @@
     return totalCents - totalLockedCents
   }
 
-  function splitAvailableCents(unlockedIds, availableCents, availableSplits){
+  function splitAvailableCents(unlockedIds, availableCents){
+    var availableSplits = unlockedIds.length
     var splitValue = parseInt(availableCents/availableSplits)
     var splitRemainder = availableCents%availableSplits
     unlockedIds.forEach(function(unlockedId, index){
