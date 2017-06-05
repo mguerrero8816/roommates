@@ -106,13 +106,38 @@
 
   function setSplit(){
     if($("#special-split").length == 0){ return false }
-    var unlockedBoxes = $(".split-lock:checkbox:not(:checked)")
-    var availableSplits = unlockedBoxes.length
+    var lockedIds = getLockedIds()
+    var unlockedIds = getUnlockedIds()
+    var availableSplits = unlockedIds.length
     if(availableSplits == 0){ return false }
+    var availableCents = getAvailableCents(lockedIds)
+
+    if(availableCents < 0){ return false }
+    var splitValue = parseInt(availableCents/availableSplits)
+    var splitRemainder = availableCents%availableSplits
+    unlockedIds.forEach(function(unlockedId, index){
+      var splitAmount = splitValue
+      if(index == 0){ splitAmount += splitRemainder}
+      var setDollars = parseInt(splitAmount/100)
+      var setCents = splitAmount%100
+      $('.split_dollars[data-lock="' + unlockedId + '"]').val(setDollars)
+      $('.split_cents[data-lock="' + unlockedId + '"]').val(setCents)
+    })
+  }
+
+  function getLockedIds(){
     var lockedIds = []
     $(".split-lock:checked").each(function(){ lockedIds.push($(this).data('lock'))})
+    return lockedIds
+  }
+
+  function getUnlockedIds(){
     var unlockedIds = []
-    unlockedBoxes.each(function(){ unlockedIds.push($(this).data('lock'))})
+    $(".split-lock:checkbox:not(:checked)").each(function(){ unlockedIds.push($(this).data('lock'))})
+    return unlockedIds
+  }
+
+  function getAvailableCents(lockedIds){
     var totalCents = parseInt($("#bill_dollars").val())*100 + parseInt($("#bill_cents").val())
     var totalLockedCents = 0
     lockedIds.forEach(function(lockedId){
@@ -121,17 +146,7 @@
       lockedCents += lockedDollars*100
       totalLockedCents += lockedCents
     })
-    var availableCents = totalCents - totalLockedCents
-    if(availableCents < 0){ return false }
-    var splitValue = parseInt(availableCents/availableSplits)
-    var splitRemainder = availableCents%availableSplits
-    unlockedIds.forEach(function(unlockedId, index){
-      var setDollars = parseInt(splitValue/100)
-      var setCents = splitValue%100
-      if(index == 0){ splitValue += splitRemainder}
-      $('.split_dollars[data-lock="' + unlockedId + '"]').val(setDollars)
-      $('.split_cents[data-lock="' + unlockedId + '"]').val(setCents)
-    })
+    return totalCents - totalLockedCents
   }
 
 </script>
