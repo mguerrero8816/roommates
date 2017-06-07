@@ -69,6 +69,12 @@
       $("#special-split-form").empty()
     })
 
+    $("#bill_apartment_id").change(function(){
+      if($("#special-split-form").length > 0){
+        generateSplitOptions()
+      }
+    })
+
     $(".bill-value").on("keyup change", function(){ setSplit() })
     $(document).on("keyup change", ".split-value", function(){
       var selectedLockId = $(this).data('lock')
@@ -106,6 +112,7 @@
   }
 
   function setUserOptions(users){
+    $("#special-split-form").empty()
     var splitTable = $("<table><tbody></tbody></table>")
     users.forEach(function(user){
       var userSplit = $("<tr></tr>")
@@ -138,8 +145,7 @@
     }
     var availableCents = getAvailableCents(lockedIds)
     if(availableCents < 0){
-      availableCents = getAvailableCents(getLockedIds())
-      splitAvailableCents(getUnlockedIds(), availableCents)
+      splitAvailableCents(getUnlockedIds(), getAvailableCents(getLockedIds()))
     } else {
       splitAvailableCents(unlockedIds, availableCents)
     }
