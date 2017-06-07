@@ -96,6 +96,18 @@
       }
       setSplit(splitId)
     })
+
+    window.prevFocus = $();
+    $(document).on("click", function(event){
+      var previousFocus = window.prevFocus
+      var currentFocus = $(event.target)
+      var previousLock = previousFocus.data("lock")
+      var currentLock = currentFocus.data("lock")
+      if(previousLock !== currentLock){
+        setSplit()
+      }
+      window.prevFocus = currentFocus
+    })
   })
 
   function generatePayerOptions(){
