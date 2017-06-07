@@ -98,11 +98,15 @@
     })
 
     window.prevFocus = $();
-    $(document).on("click", function(event){
+    $(document).on("mousedown", function(event){
       var previousFocus = window.prevFocus
       var currentFocus = $(event.target)
       var previousLock = previousFocus.data("lock")
       var currentLock = currentFocus.data("lock")
+      console.log(previousFocus)
+      console.log(currentFocus)
+      console.log(previousLock)
+      console.log(currentLock)
       if(previousLock !== currentLock){
         setSplit()
       }
