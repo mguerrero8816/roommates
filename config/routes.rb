@@ -21,6 +21,10 @@ Rails.application.routes.draw do
     post :deactivate, on: :member
   end
 
+  resources :users, only: [] do
+    get :current, on: :collection
+  end
+
 
   # NAMESPACE RESOURCES
 

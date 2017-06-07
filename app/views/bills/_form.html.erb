@@ -5,7 +5,7 @@
   <% bill_dollars = 0 %>
   <% bill_cents = 0 %>
 <% end %>
-<% apartment = @bill.apartment_id || @apartment_id %>
+<% apartment_id = @bill.apartment_id || @apartment_id %>
 
 <%= form_for(@bill) do |f| %>
   <% if @bill.errors.any? %>
@@ -23,7 +23,7 @@
     <tbody>
       <tr>
         <td><%= f.label :apartment_id, 'Apartment' %></td>
-        <td><%= f.select :apartment_id, options_for_select(Apartment.select_options, apartment) %></td>
+        <td><%= f.select :apartment_id, options_for_select(Apartment.select_options, apartment_id) %></td>
       </tr>
       <tr>
         <td><%= f.label :name, 'Name' %></td>
@@ -31,9 +31,7 @@
       </tr>
       <tr>
         <td><%= f.label :user_id, 'Payer' %></td>
-        <td>
-          <select id="bill_user_id" name="bill[user_id]"></select>
-        </td>
+        <td><%= f.select :user_id, options_for_select(apartment_tenants_options_for_select(apartment_id), selected: params.fetch(:bill, {})[:user_id] || current_user.id) %></td>
       </tr>
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
@@ -59,8 +57,6 @@
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function(){
-    generatePayerOptions()
-
     $(document).on('click', '#set-special.fake-link', function(){
       $(this).removeClass('fake-link')
       $("#set-even").addClass('fake-link')
@@ -106,16 +102,27 @@
     $.ajax({
       type: "GET",
       url: "/apartments/" + $("#bill_apartment_id option:selected").val() + "/tenants",
-      success: function(data){
-        generateUserOptions(data)
+      success: function(users){
+        $.ajax({
+          type: "GET",
+          url: "/users/current",
+          success: function(current_user){
+            generateUserOptions(users, current_user)
+          }
+        })
       }
     })
   }
 
-  function generateUserOptions(users){
+  function generateUserOptions(users, current_user){
+    var selectedUserId = $("select#bill_user_id option:selected").val() || current_user['id']
     $("#bill_user_id").empty()
     users.forEach(function(user){
-      var userOption = '<option value="' + user['id'] + '">' + user['first_name'] + ' ' + user['last_name'] + '</option>'
+      var selected = ""
+      if(user['id'] == selectedUserId){
+        selected = " selected"
+      }
+      var userOption = '<option value="' + user['id'] + '"' + selected + '>' + user['first_name'] + ' ' + user['last_name'] + '</option>'
       $("#bill_user_id").append(userOption)
     })
   }
