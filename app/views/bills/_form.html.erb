@@ -161,8 +161,8 @@
       var userSplit = $("<tr></tr>")
       var userName = "<td>" + user['first_name'] + ' ' + user['last_name'] + "</td>"
       userSplit.append(userName)
-      var userDollars = '<td><input min="0" type="number" class="split_dollars split-value" name="user_dollars_split_' + user['id'] + '" data-lock="' + user['id'] + '">.'
-      var userCents = '<input min="0" max="99" type="number" class="split_cents split-value" name="user_cents_split_' + user['id'] + '" data-lock="' + user['id'] + '"></td>'
+      var userDollars = '<td><input min="0" type="number" class="split_dollars split-value" name="user_split[' + user['id'] + '][dollars]" data-lock="' + user['id'] + '">.'
+      var userCents = '<input min="0" max="99" type="number" class="split_cents split-value" name="user_split[' + user['id'] + '][cents]" data-lock="' + user['id'] + '"></td>'
       userSplit.append(userDollars + userCents)
       var userLock = '<td><input type="checkbox" class="split-lock" data-lock="' + user['id'] + '">Lock</td>'
       userSplit.append(userLock)
