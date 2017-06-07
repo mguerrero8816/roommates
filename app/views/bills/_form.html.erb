@@ -31,7 +31,9 @@
       </tr>
       <tr>
         <td><%= f.label :user_id, 'Payer' %></td>
-        <td><%= f.select :user_id, User.select_options %></td>
+        <td>
+          <select id="bill_user_id" name="bill[user_id]"></select>
+        </td>
       </tr>
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
@@ -57,6 +59,8 @@
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function(){
+    generatePayerOptions()
+
     $(document).on('click', '#set-special.fake-link', function(){
       $(this).removeClass('fake-link')
       $("#set-even").addClass('fake-link')
@@ -70,7 +74,8 @@
     })
 
     $("#bill_apartment_id").change(function(){
-      if($("#special-split-form").length > 0){
+      generatePayerOptions()
+      if($("#special-split").length > 0){
         generateSplitOptions()
       }
     })
@@ -97,13 +102,28 @@
     })
   })
 
+  function generatePayerOptions(){
+    $.ajax({
+      type: "GET",
+      url: "/apartments/" + $("#bill_apartment_id option:selected").val() + "/tenants",
+      success: function(data){
+        generateUserOptions(data)
+      }
+    })
+  }
+
+  function generateUserOptions(users){
+    $("#bill_user_id").empty()
+    users.forEach(function(user){
+      var userOption = '<option value="' + user['id'] + '">' + user['first_name'] + ' ' + user['last_name'] + '</option>'
+      $("#bill_user_id").append(userOption)
+    })
+  }
+
   function generateSplitOptions(){
     $.ajax({
       type: "GET",
-      url: "/bills/get_split_users",
-      data: {
-        apartment_id: $("#bill_apartment_id option:selected").val()
-      },
+      url: "/apartments/" + $("#bill_apartment_id option:selected").val() + "/tenants",
       success: function(data){
         setUserOptions(data)
         setSplit()
