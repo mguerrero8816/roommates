@@ -69,22 +69,25 @@
       $("#special-split-form").empty()
     })
 
-    $(".bill-value").keyup(setSplit)
-    $(document).on("keyup", ".split-value", function(){
+    $(".bill-value").on("keyup change", function(){ setSplit() })
+    $(document).on("keyup change", ".split-value", function(){
       var selectedLockId = $(this).data('lock')
       setSplit(selectedLockId)
     })
 
     $(document).on("change", ".split-lock", function(){
       var selectedLockId = $(this).data('lock')
+      var splitId
       if(this.checked){
+        splitId = selectedLockId
         $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", true);
         $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", true);
       } else {
         $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", false);
         $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", false);
-        setSplit()
+        splitId = 0
       }
+      setSplit(splitId)
     })
   })
 
