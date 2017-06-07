@@ -5,7 +5,7 @@
   <% bill_dollars = 0 %>
   <% bill_cents = 0 %>
 <% end %>
-<% apartment = @bill.apartment_id || @apartment_id %>
+<% apartment_id = @bill.apartment_id || @apartment_id %>
 
 <%= form_for(@bill) do |f| %>
   <% if @bill.errors.any? %>
@@ -23,7 +23,7 @@
     <tbody>
       <tr>
         <td><%= f.label :apartment_id, 'Apartment' %></td>
-        <td><%= f.select :apartment_id, options_for_select(Apartment.select_options, apartment) %></td>
+        <td><%= f.select :apartment_id, options_for_select(Apartment.select_options, apartment_id) %></td>
       </tr>
       <tr>
         <td><%= f.label :name, 'Name' %></td>
@@ -31,17 +31,17 @@
       </tr>
       <tr>
         <td><%= f.label :user_id, 'Payer' %></td>
-        <td><%= f.select :user_id, User.select_options %></td>
+        <td><%= f.select :user_id, options_for_select(apartment_tenants_options_for_select(apartment_id), selected: params.fetch(:bill, {})[:user_id] || current_user.id) %></td>
       </tr>
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
         <td>
-          $ <%= f.number_field :dollars, value: bill_dollars, min: 0 %> . <%= f.number_field :cents, value: bill_cents, min: 0, max: 99 %>
+          $ <%= f.number_field :dollars, value: bill_dollars, min: 0, class: 'bill-value' %> . <%= f.number_field :cents, value: bill_cents, min: 0, max: 99, class: 'bill-value' %>
         </td>
       </tr>
       <tr>
         <td><label>Split</label></td>
-        <td><span id="set-even">Even</span> | <span id="set-special" class="fake-link">Special</span><div id="special-split"></div></td>
+        <td><span id="set-even">Even</span> | <span id="set-special" class="fake-link">Special</span><div id="special-split-form"></div></td>
       </tr>
       <tr>
         <td><%= f.label :due, 'Due Date' %></td>
@@ -60,43 +60,160 @@
     $(document).on('click', '#set-special.fake-link', function(){
       $(this).removeClass('fake-link')
       $("#set-even").addClass('fake-link')
-      generate_split_options()
+      generateSplitOptions()
     })
 
     $(document).on('click', '#set-even.fake-link', function(){
       $(this).removeClass('fake-link')
       $("#set-special").addClass('fake-link')
-      $("#special-split").empty()
+      $("#special-split-form").empty()
+    })
+
+    $("#bill_apartment_id").change(function(){
+      generatePayerOptions()
+      if($("#special-split").length > 0){
+        generateSplitOptions()
+      }
+    })
+
+    $(".bill-value").on("keyup change", function(){ setSplit() })
+    $(document).on("keyup change", ".split-value", function(){
+      var selectedLockId = $(this).data('lock')
+      setSplit(selectedLockId)
+    })
+
+    $(document).on("change", ".split-lock", function(){
+      var selectedLockId = $(this).data('lock')
+      var splitId
+      if(this.checked){
+        splitId = selectedLockId
+        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", true);
+        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", true);
+      } else {
+        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", false);
+        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", false);
+        splitId = 0
+      }
+      setSplit(splitId)
     })
   })
 
-  function generate_split_options(){
+  function generatePayerOptions(){
     $.ajax({
       type: "GET",
-      url: "/bills/get_split_users",
-      data: {
-        apartment_id: $("#bill_apartment_id option:selected").val()
-      },
-      success: function(data){
-        set_user_options(data)
+      url: "/apartments/" + $("#bill_apartment_id option:selected").val() + "/tenants",
+      success: function(users){
+        $.ajax({
+          type: "GET",
+          url: "/users/current",
+          success: function(current_user){
+            generateUserOptions(users, current_user)
+          }
+        })
       }
     })
   }
 
-  function set_user_options(users){
+  function generateUserOptions(users, current_user){
+    var selectedUserId = $("select#bill_user_id option:selected").val() || current_user['id']
+    $("#bill_user_id").empty()
+    users.forEach(function(user){
+      var selected = ""
+      if(user['id'] == selectedUserId){
+        selected = " selected"
+      }
+      var userOption = '<option value="' + user['id'] + '"' + selected + '>' + user['first_name'] + ' ' + user['last_name'] + '</option>'
+      $("#bill_user_id").append(userOption)
+    })
+  }
+
+  function generateSplitOptions(){
+    $.ajax({
+      type: "GET",
+      url: "/apartments/" + $("#bill_apartment_id option:selected").val() + "/tenants",
+      success: function(data){
+        setUserOptions(data)
+        setSplit()
+      }
+    })
+  }
+
+  function setUserOptions(users){
+    $("#special-split-form").empty()
     var splitTable = $("<table><tbody></tbody></table>")
-    users.forEach(function(user, index){
+    users.forEach(function(user){
       var userSplit = $("<tr></tr>")
       var userName = "<td>" + user['first_name'] + ' ' + user['last_name'] + "</td>"
       userSplit.append(userName)
-      var userDollars = '<td><input min="0" type="number" class="user_split" name="user_dollars_split_' + user['id'] + '" data-lock="' + user['id'] + '">.'
-      var userCents = '<input min="0" max="99" type="number" class="user_split" name="user_cents_split_' + user['id'] + '" data-lock="' + user['id'] + '"></td>'
+      var userDollars = '<td><input min="0" type="number" class="split_dollars split-value" name="user_dollars_split_' + user['id'] + '" data-lock="' + user['id'] + '">.'
+      var userCents = '<input min="0" max="99" type="number" class="split_cents split-value" name="user_cents_split_' + user['id'] + '" data-lock="' + user['id'] + '"></td>'
       userSplit.append(userDollars + userCents)
-      var userLock = '<td><input type="checkbox" data-lock="' + user['id'] + '">Lock</td>'
+      var userLock = '<td><input type="checkbox" class="split-lock" data-lock="' + user['id'] + '">Lock</td>'
       userSplit.append(userLock)
       splitTable.append(userSplit)
     })
-    $("#special-split").append(splitTable)
+    $("#special-split-form").append(splitTable)
+    $("#special-split-form").append('<input type="hidden" id="special-split" name="special_split" value=true>')
+  }
+
+  function setSplit(selectedLockId=0){
+    if($("#special-split").length == 0){ return false }
+    var lockedIds = getLockedIds()
+    var unlockedIds = getUnlockedIds()
+    var availableSplits = unlockedIds.length
+    if(availableSplits == 0){
+      return false
+    } else if (availableSplits > 1) {
+      var selectedIndex = unlockedIds.indexOf(selectedLockId)
+      if(selectedIndex > -1){
+        lockedIds[lockedIds.length] = selectedLockId
+        unlockedIds.splice(selectedIndex, 1)
+      }
+    }
+    var availableCents = getAvailableCents(lockedIds)
+    if(availableCents < 0){
+      splitAvailableCents(getUnlockedIds(), getAvailableCents(getLockedIds()))
+    } else {
+      splitAvailableCents(unlockedIds, availableCents)
+    }
+  }
+
+  function getLockedIds(){
+    var lockedIds = []
+    $(".split-lock:checked").each(function(){ lockedIds.push($(this).data('lock'))})
+    return lockedIds
+  }
+
+  function getUnlockedIds(){
+    var unlockedIds = []
+    $(".split-lock:checkbox:not(:checked)").each(function(){ unlockedIds.push($(this).data('lock'))})
+    return unlockedIds
+  }
+
+  function getAvailableCents(lockedIds){
+    var totalCents = parseInt($("#bill_dollars").val())*100 + parseInt($("#bill_cents").val())
+    var totalLockedCents = 0
+    lockedIds.forEach(function(lockedId){
+      var lockedDollars = parseInt($('.split_dollars[data-lock="' + lockedId + '"]').val() || 0)
+      var lockedCents = parseInt($('.split_cents[data-lock="' + lockedId + '"]').val() || 0)
+      lockedCents += lockedDollars*100
+      totalLockedCents += lockedCents
+    })
+    return totalCents - totalLockedCents
+  }
+
+  function splitAvailableCents(unlockedIds, availableCents){
+    var availableSplits = unlockedIds.length
+    var splitValue = parseInt(availableCents/availableSplits)
+    var splitRemainder = availableCents%availableSplits
+    unlockedIds.forEach(function(unlockedId, index){
+      var splitAmount = splitValue
+      if(index == 0){ splitAmount += splitRemainder}
+      var setDollars = parseInt(splitAmount/100)
+      var setCents = splitAmount%100
+      $('.split_dollars[data-lock="' + unlockedId + '"]').val(setDollars)
+      $('.split_cents[data-lock="' + unlockedId + '"]').val(setCents)
+    })
   }
 
 </script>

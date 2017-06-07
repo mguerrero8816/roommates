@@ -9,19 +9,27 @@ Rails.application.routes.draw do
   resources :debts,   only: [:index]
 
   # CUSTOM RESOURCES
-  resources :payments, only: [] do
-    post :deactivate, on: :member
+  resources :apartments, only: [] do
+    get :tenants, on: :member
   end
 
   resources :landing, only: [] do
     get :home, on: :collection
   end
 
+  resources :payments, only: [] do
+    post :deactivate, on: :member
+  end
+
+  resources :users, only: [] do
+    get :current, on: :collection
+  end
+
+
   # NAMESPACE RESOURCES
 
   # COMPLEX RESOURCES
   resources :bills, except: [:destroy] do
-    get  :get_split_users, on: :collection
     post :deactivate, on: :member
     resources :payments, only: [:index, :create], controller: :bill_payments
   end
