@@ -137,8 +137,12 @@
       }
     }
     var availableCents = getAvailableCents(lockedIds)
-    if(availableCents < 0){ return false }
-    splitAvailableCents(unlockedIds, availableCents)
+    if(availableCents < 0){
+      availableCents = getAvailableCents(getLockedIds())
+      splitAvailableCents(getUnlockedIds(), availableCents)
+    } else {
+      splitAvailableCents(unlockedIds, availableCents)
+    }
   }
 
   function getLockedIds(){
