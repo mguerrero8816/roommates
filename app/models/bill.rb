@@ -14,7 +14,7 @@ class Bill < Debt
 
   def special_split_logic(credit_name)
     special_split.each do |split_user_id, amounts|
-      next if user_id == split_user_id
+      next if user_id == split_user_id.to_i
       split_cents = 100*amounts[:dollars].to_i + amounts[:cents].to_i
       Credit.create!(user_id: split_user_id.to_i, apartment_id: apartment_id, bill_id: id, name: credit_name, pay_to_id: user_id, cents: split_cents, active: false)
     end

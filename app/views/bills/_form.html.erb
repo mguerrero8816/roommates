@@ -41,7 +41,39 @@
       </tr>
       <tr>
         <td><label>Split</label></td>
-        <td><span id="set-even">Even</span> | <span id="set-special" class="fake-link">Special</span><div id="special-split-form"></div></td>
+        <td>
+          <% if @bill.special_split.present? %>
+            <% even_class = 'fake-link' %>
+            <% special_class = '' %>
+          <% else %>
+            <% even_class = '' %>
+            <% special_class = 'fake-link' %>
+          <% end %>
+          <span id="set-even" class="<%= even_class %>">Even</span> | <span id="set-special" class="<%= special_class %>">Special</span>
+          <div id="special-split-form">
+            <% if @bill.special_split %>
+              <table>
+                </tbody>
+                  <% @bill.special_split.each do |split_user_id, amounts| %>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <input min="0" class="split_dollars split-value" name="special_split[<%= split_user_id %>][dollars]" data-lock="<%= split_user_id %>" type="number" value="<%= amounts[:dollars] %>" readonly="">
+                        .
+                        <input min="0" max="99" class="split_cents split-value" name="special_split[<%= split_user_id %>][cents]" data-lock="<%= split_user_id %>" type="number" value="<%= amounts[:cents] %>" readonly="">
+                      </td>
+                      <td>
+                        <input class="split-lock" data-lock="<%= split_user_id %>" type="checkbox" checked>
+                        Lock
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              <input id="special-split" name="special_split_flag" value="true" type="hidden">
+            <% end %>
+          </div>
+        </td>
       </tr>
       <tr>
         <td><%= f.label :due, 'Due Date' %></td>
