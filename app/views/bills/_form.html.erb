@@ -36,12 +36,15 @@
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
         <td>
-          $ <%= f.number_field :dollars, value: bill_dollars, min: 0, class: 'bill-value' %> . <%= f.number_field :cents, value: bill_cents, min: 0, max: 99, class: 'bill-value' %>
+          $ <%= f.number_field :dollars, value: bill_dollars, min: 0, class: 'bill-value', disabled: !@bill.new_record? %> . <%= f.number_field :cents, value: bill_cents, min: 0, max: 99, class: 'bill-value', disabled: !@bill.new_record? %>
         </td>
       </tr>
       <tr>
         <td><label>Split</label></td>
-        <td><span id="set-even">Even</span> | <span id="set-special" class="fake-link">Special</span><div id="special-split-form"></div></td>
+        <td>
+          <%= generateSplitToggle(@bill.special_split.present?)%>
+          <%= generateSplitOptions(@bill.special_split) %>
+        </td>
       </tr>
       <tr>
         <td><%= f.label :due, 'Due Date' %></td>
@@ -87,11 +90,11 @@
       var splitId
       if(this.checked){
         splitId = selectedLockId
-        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", true);
-        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", true);
+        $('.split-dollars[data-lock="' + selectedLockId + '"]').prop("readonly", true);
+        $('.split-cents[data-lock="' + selectedLockId + '"]').prop("readonly", true);
       } else {
-        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("disabled", false);
-        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("disabled", false);
+        $('.split-dollars[data-lock="' + selectedLockId + '"]').prop("readonly", false);
+        $('.split-cents[data-lock="' + selectedLockId + '"]').prop("readonly", false);
         splitId = 0
       }
       setSplit(splitId)
@@ -103,11 +106,8 @@
       var currentFocus = $(event.target)
       var previousLock = previousFocus.data("lock")
       var currentLock = currentFocus.data("lock")
-      console.log(previousFocus)
-      console.log(currentFocus)
-      console.log(previousLock)
-      console.log(currentLock)
-      if(previousLock !== currentLock){
+      var currentFocusType = currentFocus.attr("type")
+      if(previousLock !== currentLock && currentFocusType !== "submit"){
         setSplit()
       }
       window.prevFocus = currentFocus
@@ -161,19 +161,18 @@
       var userSplit = $("<tr></tr>")
       var userName = "<td>" + user['first_name'] + ' ' + user['last_name'] + "</td>"
       userSplit.append(userName)
-      var userDollars = '<td><input min="0" type="number" class="split_dollars split-value" name="user_dollars_split_' + user['id'] + '" data-lock="' + user['id'] + '">.'
-      var userCents = '<input min="0" max="99" type="number" class="split_cents split-value" name="user_cents_split_' + user['id'] + '" data-lock="' + user['id'] + '"></td>'
+      var userDollars = '<td><input min="0" type="number" class="split-dollars split-value" name="special_split[' + user['id'] + '][dollars]" data-lock="' + user['id'] + '">.'
+      var userCents = '<input min="0" max="99" type="number" class="split-cents split-value" name="special_split[' + user['id'] + '][cents]" data-lock="' + user['id'] + '"></td>'
       userSplit.append(userDollars + userCents)
-      var userLock = '<td><input type="checkbox" class="split-lock" data-lock="' + user['id'] + '">Lock</td>'
+      var userLock = '<td><input id="split_lock_' + user['id'] + '" type="checkbox" class="split-lock" data-lock="' + user['id'] + '"><label for="split_lock_' + user['id'] + '" data-lock="' + user['id'] + '">Lock</label></td>'
       userSplit.append(userLock)
       splitTable.append(userSplit)
     })
     $("#special-split-form").append(splitTable)
-    $("#special-split-form").append('<input type="hidden" id="special-split" name="special_split" value=true>')
   }
 
   function setSplit(selectedLockId=0){
-    if($("#special-split").length == 0){ return false }
+    if($("#special-split-form table").length == 0){ return false }
     var lockedIds = getLockedIds()
     var unlockedIds = getUnlockedIds()
     var availableSplits = unlockedIds.length
@@ -210,8 +209,8 @@
     var totalCents = parseInt($("#bill_dollars").val())*100 + parseInt($("#bill_cents").val())
     var totalLockedCents = 0
     lockedIds.forEach(function(lockedId){
-      var lockedDollars = parseInt($('.split_dollars[data-lock="' + lockedId + '"]').val() || 0)
-      var lockedCents = parseInt($('.split_cents[data-lock="' + lockedId + '"]').val() || 0)
+      var lockedDollars = parseInt($('.split-dollars[data-lock="' + lockedId + '"]').val() || 0)
+      var lockedCents = parseInt($('.split-cents[data-lock="' + lockedId + '"]').val() || 0)
       lockedCents += lockedDollars*100
       totalLockedCents += lockedCents
     })
@@ -227,8 +226,8 @@
       if(index == 0){ splitAmount += splitRemainder}
       var setDollars = parseInt(splitAmount/100)
       var setCents = splitAmount%100
-      $('.split_dollars[data-lock="' + unlockedId + '"]').val(setDollars)
-      $('.split_cents[data-lock="' + unlockedId + '"]').val(setCents)
+      $('.split-dollars[data-lock="' + unlockedId + '"]').val(setDollars)
+      $('.split-cents[data-lock="' + unlockedId + '"]').val(setCents)
     })
   }
 
