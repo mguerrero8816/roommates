@@ -1,12 +1,12 @@
 module BillsHelper
   def generateSplitOptions(special_split)
-    users_data = {}
-    User.select('id, first_name, last_name').where(id: special_split.keys).each do |user|
-      id_key = user.id.to_s
-      users_data[id_key] = user
-    end
     content_tag(:div, id: 'special-split-form') do
       if special_split.present?
+        users_data = {}
+        User.select('id, first_name, last_name').where(id: special_split.keys).each do |user|
+          id_key = user.id.to_s
+          users_data[id_key] = user
+        end
         concat(content_tag(:table) do
           concat(content_tag(:tbody) do
             special_split.each do |split_user_id, amounts|
