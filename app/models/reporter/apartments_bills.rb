@@ -4,7 +4,7 @@ module Reporter
       # takes: integer
       # returns: hash
       def report(user_id)
-        apartments = ApartmentTenant.select('apartment_tenants.id').where(user_id: user_id)
+        apartments = ApartmentUser.select('apartment_users.id').where(user_id: user_id)
         apartments = join_apartments(apartments)
         apartments = join_bills(apartments)
         apartments = join_bill_payers(apartments)
@@ -17,7 +17,7 @@ module Reporter
       def join_apartments(apartments)
         apartments.select('apartments.id AS apartment_id,
                            apartments.name AS apartment_name')
-                  .joins('LEFT JOIN apartments ON apartment_tenants.apartment_id = apartments.id')
+                  .joins('LEFT JOIN apartments ON apartment_users.apartment_id = apartments.id')
       end
 
       def join_bills(apartments)

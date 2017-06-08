@@ -2,7 +2,7 @@ module Reporter
   class Roommates < Reporter::Base
     class << self
       def report(user_id)
-        roommates = ApartmentTenant.where(user_id: user_id)
+        roommates = ApartmentUser.where(user_id: user_id)
         roommates = join_apartments(roommates)
         roommates = join_roommates(roommates)
         roommates = build_roommates_table(roommates, user_id)
@@ -13,14 +13,14 @@ module Reporter
 
       def join_apartments(users)
         users.select('apartments.name AS apartment_name')
-             .joins('LEFT JOIN apartments ON apartment_tenants.apartment_id = apartments.id')
+             .joins('LEFT JOIN apartments ON apartment_users.apartment_id = apartments.id')
       end
 
       def join_roommates(users)
         users.select('roommates.id AS roommate_id,
                       roommates.first_name AS roommate_first_name,
                       roommates.last_name AS roommate_last_name')
-             .joins('LEFT JOIN apartment_tenants AS tenants ON apartments.id = tenants.apartment_id')
+             .joins('LEFT JOIN apartment_users AS tenants ON apartments.id = tenants.apartment_id')
              .joins('LEFT JOIN users AS roommates ON tenants.user_id = roommates.id')
       end
 

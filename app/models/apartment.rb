@@ -1,7 +1,7 @@
 class Apartment < ApplicationRecord
   has_many :debts
-  has_many :apartment_tenants
-  has_many :users, through: :apartment_tenants
+  has_many :apartment_users
+  has_many :users, through: :apartment_users
   alias_attribute :tenants, :users
 
   class << self

@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20170608174307) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "apartment_tenants", force: :cascade do |t|
+  create_table "apartment_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "apartment_id"
     t.datetime "created_at",   null: false

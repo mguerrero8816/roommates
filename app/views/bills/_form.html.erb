@@ -31,7 +31,7 @@
       </tr>
       <tr>
         <td><%= f.label :user_id, 'Payer' %></td>
-        <td><%= f.select :user_id, options_for_select(apartment_tenants_options_for_select(apartment_id), selected: params.fetch(:bill, {})[:user_id] || current_user.id) %></td>
+        <td><%= f.select :user_id, options_for_select(apartment_users_options_for_select(apartment_id), selected: params.fetch(:bill, {})[:user_id] || current_user.id) %></td>
       </tr>
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>

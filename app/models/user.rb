@@ -4,8 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :apartment_tenants
-  has_many :apartments, through: :apartment_tenants
+  has_many :apartment_users
+  has_many :apartments, through: :apartment_users
 
   has_many :role_users
   has_many :roles, through: :role_users
