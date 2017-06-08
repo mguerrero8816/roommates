@@ -42,37 +42,8 @@
       <tr>
         <td><label>Split</label></td>
         <td>
-          <% if @bill.special_split.present? %>
-            <% even_class = 'fake-link' %>
-            <% special_class = '' %>
-          <% else %>
-            <% even_class = '' %>
-            <% special_class = 'fake-link' %>
-          <% end %>
-          <span id="set-even" class="<%= even_class %>">Even</span> | <span id="set-special" class="<%= special_class %>">Special</span>
-          <div id="special-split-form">
-            <% if @bill.special_split %>
-              <table>
-                </tbody>
-                  <% @bill.special_split.each do |split_user_id, amounts| %>
-                    <tr>
-                      <td></td>
-                      <td>
-                        <input min="0" class="split_dollars split-value" name="special_split[<%= split_user_id %>][dollars]" data-lock="<%= split_user_id %>" type="number" value="<%= amounts[:dollars] %>" readonly="">
-                        .
-                        <input min="0" max="99" class="split_cents split-value" name="special_split[<%= split_user_id %>][cents]" data-lock="<%= split_user_id %>" type="number" value="<%= amounts[:cents] %>" readonly="">
-                      </td>
-                      <td>
-                        <input class="split-lock" data-lock="<%= split_user_id %>" type="checkbox" checked>
-                        Lock
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-              <input id="special-split" name="special_split_flag" value="true" type="hidden">
-            <% end %>
-          </div>
+          <%= generateSplitToggle(@bill.special_split.present?)%>
+          <%= generateSplitOptions(@bill.special_split) %>
         </td>
       </tr>
       <tr>
@@ -119,11 +90,11 @@
       var splitId
       if(this.checked){
         splitId = selectedLockId
-        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("readonly", true);
-        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("readonly", true);
+        $('.split-dollars[data-lock="' + selectedLockId + '"]').prop("readonly", true);
+        $('.split-cents[data-lock="' + selectedLockId + '"]').prop("readonly", true);
       } else {
-        $('.split_dollars[data-lock="' + selectedLockId + '"]').prop("readonly", false);
-        $('.split_cents[data-lock="' + selectedLockId + '"]').prop("readonly", false);
+        $('.split-dollars[data-lock="' + selectedLockId + '"]').prop("readonly", false);
+        $('.split-cents[data-lock="' + selectedLockId + '"]').prop("readonly", false);
         splitId = 0
       }
       setSplit(splitId)
@@ -193,19 +164,18 @@
       var userSplit = $("<tr></tr>")
       var userName = "<td>" + user['first_name'] + ' ' + user['last_name'] + "</td>"
       userSplit.append(userName)
-      var userDollars = '<td><input min="0" type="number" class="split_dollars split-value" name="special_split[' + user['id'] + '][dollars]" data-lock="' + user['id'] + '">.'
-      var userCents = '<input min="0" max="99" type="number" class="split_cents split-value" name="special_split[' + user['id'] + '][cents]" data-lock="' + user['id'] + '"></td>'
+      var userDollars = '<td><input min="0" type="number" class="split-dollars split-value" name="special_split[' + user['id'] + '][dollars]" data-lock="' + user['id'] + '">.'
+      var userCents = '<input min="0" max="99" type="number" class="split-cents split-value" name="special_split[' + user['id'] + '][cents]" data-lock="' + user['id'] + '"></td>'
       userSplit.append(userDollars + userCents)
-      var userLock = '<td><input type="checkbox" class="split-lock" data-lock="' + user['id'] + '">Lock</td>'
+      var userLock = '<td><input id="split_lock_' + user['id'] + '" type="checkbox" class="split-lock" data-lock="' + user['id'] + '"><label for="split_lock_' + user['id'] + '" data-lock="' + user['id'] + '">Lock</label></td>'
       userSplit.append(userLock)
       splitTable.append(userSplit)
     })
     $("#special-split-form").append(splitTable)
-    $("#special-split-form").append('<input type="hidden" id="special-split" name="special_split_flag" value=true>')
   }
 
   function setSplit(selectedLockId=0){
-    if($("#special-split").length == 0){ return false }
+    if($("#special-split-form table").length == 0){ return false }
     var lockedIds = getLockedIds()
     var unlockedIds = getUnlockedIds()
     var availableSplits = unlockedIds.length
@@ -242,8 +212,8 @@
     var totalCents = parseInt($("#bill_dollars").val())*100 + parseInt($("#bill_cents").val())
     var totalLockedCents = 0
     lockedIds.forEach(function(lockedId){
-      var lockedDollars = parseInt($('.split_dollars[data-lock="' + lockedId + '"]').val() || 0)
-      var lockedCents = parseInt($('.split_cents[data-lock="' + lockedId + '"]').val() || 0)
+      var lockedDollars = parseInt($('.split-dollars[data-lock="' + lockedId + '"]').val() || 0)
+      var lockedCents = parseInt($('.split-cents[data-lock="' + lockedId + '"]').val() || 0)
       lockedCents += lockedDollars*100
       totalLockedCents += lockedCents
     })
@@ -259,8 +229,8 @@
       if(index == 0){ splitAmount += splitRemainder}
       var setDollars = parseInt(splitAmount/100)
       var setCents = splitAmount%100
-      $('.split_dollars[data-lock="' + unlockedId + '"]').val(setDollars)
-      $('.split_cents[data-lock="' + unlockedId + '"]').val(setCents)
+      $('.split-dollars[data-lock="' + unlockedId + '"]').val(setDollars)
+      $('.split-cents[data-lock="' + unlockedId + '"]').val(setCents)
     })
   }
 
