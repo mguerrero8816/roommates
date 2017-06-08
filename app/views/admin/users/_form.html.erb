@@ -1,4 +1,5 @@
-<%= form_for(@user, url: admin_user_path(id: @user.id)) do |f| %>
+<% form_url = @user.new_record? ? admin_users_path : admin_user_path(id: @user.id) %>
+<%= form_for(@user, url: form_url) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -24,6 +25,12 @@
         <td><%= f.label :email %></td>
         <td><%= f.text_field :email %></td>
       </tr>
+      <% if @user.new_record? %>
+        <tr>
+          <td><%= f.label :password %></td>
+          <td><%= f.text_field :password %></td>
+        </tr>
+      <% end %>
       <tr>
         <td><%= f.submit %></td>
         <td><%= link_to 'Cancel', request.referrer %></td>
