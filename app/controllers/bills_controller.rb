@@ -51,5 +51,4 @@ class BillsController < ApplicationController
   def bill_params
     params.require(:bill).permit(:apartment_id, :name, :user_id, :due, :dollars, :cents)
   end
-
 end
