@@ -36,7 +36,7 @@
       <tr>
         <td><%= f.label :dollars, 'Amount'%></td>
         <td>
-          $ <%= f.number_field :dollars, value: bill_dollars, min: 0, class: 'bill-value' %> . <%= f.number_field :cents, value: bill_cents, min: 0, max: 99, class: 'bill-value' %>
+          $ <%= f.number_field :dollars, value: bill_dollars, min: 0, class: 'bill-value', disabled: !@bill.new_record? %> . <%= f.number_field :cents, value: bill_cents, min: 0, max: 99, class: 'bill-value', disabled: !@bill.new_record? %>
         </td>
       </tr>
       <tr>
