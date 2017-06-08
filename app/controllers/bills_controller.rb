@@ -16,6 +16,7 @@ class BillsController < ApplicationController
 
   def create
     @bill = Bill.new(bill_params)
+    @bill.special_split = params[:special_split]
     if @bill.save
       redirect_to root_path
     else
