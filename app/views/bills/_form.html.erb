@@ -106,11 +106,8 @@
       var currentFocus = $(event.target)
       var previousLock = previousFocus.data("lock")
       var currentLock = currentFocus.data("lock")
-      console.log(previousFocus)
-      console.log(currentFocus)
-      console.log(previousLock)
-      console.log(currentLock)
-      if(previousLock !== currentLock){
+      var currentFocusType = currentFocus.attr("type")
+      if(previousLock !== currentLock && currentFocusType !== "submit"){
         setSplit()
       }
       window.prevFocus = currentFocus
