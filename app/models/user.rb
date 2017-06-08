@@ -7,6 +7,9 @@ class User < ApplicationRecord
   has_many :apartment_tenants
   has_many :apartments, through: :apartment_tenants
 
+  has_many :role_users
+  has_many :roles, through: :role_users
+
   class << self
     def select_options
       all.map do |user|
