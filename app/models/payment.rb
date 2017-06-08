@@ -5,17 +5,23 @@ class Payment < ActiveRecord::Base
   belongs_to :payable, polymorphic: true
   validate :cannot_overpay_bill
   validates_presence_of :paid
-  after_save :split_if_paid_off
+  # after_save :split_if_paid_off
+  after_save :activate_splits_if_paid_off
 
   def user_id
     payable.user_id if payable_type == 'Debt'
   end
 
-  def split_if_paid_off
-    payable.split_credit if payable_type == 'Debt' && payable.paid_off
-  end
+
+  # def split_if_paid_off
+  #   payable.split_credit if payable_type == 'Debt' && payable.paid_off
+  # end
 
   private
+
+  def activate_splits_if_paid_off
+    payable.activate_splits if payable_type == 'Bill' && payable.paid_off
+  end
 
   def cannot_overpay_bill
     overpaid = (payable.total_paid(id) + cents) > payable.cents
