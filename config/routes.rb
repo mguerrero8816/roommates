@@ -25,6 +25,10 @@ Rails.application.routes.draw do
     get :current, on: :collection
   end
 
+  resources :admin, only: [:index] do
+
+  end
+
 
   # NAMESPACE RESOURCES
 
