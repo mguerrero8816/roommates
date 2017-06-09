@@ -23,6 +23,11 @@ apartment_02.users << mike
 apartment_02.users << jennice
 apartment_02.users << yuki
 
+Apartment.create(name: 'Goose Canyon', address: '9515 Goose Avenue')
+Apartment.create(name: 'Chicken Valley', address: '11102 Chicken Road')
+Apartment.create(name: 'Zapdos Apartments', address: '11395 Zapdos Avenue')
+Apartment.create(name: 'Chuck E', address: '9494 Cheese Streed')
+
 bill_01 = Bill.create(name: 'Rent', cents: 220000, apartment_id: apartment_01.id, user_id: yuki.id, due: Time.now + 10.days)
 bill_02 = Bill.create(name: 'Electric', cents: 10062, apartment_id: apartment_01.id, user_id: mike.id, due: Time.now + 10.days)
 bill_03 = Bill.create(name: 'Water', cents: 16014, apartment_id: apartment_01.id, user_id: mike.id, due: Time.now + 10.days)
