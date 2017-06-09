@@ -8,6 +8,7 @@ class Admin::UsersController < AdminController
 
   def create
     @user = User.new(user_params)
+    @user.role_ids = params[:role_ids]
     if @user.save
       redirect_to admin_index_path, notice: 'User was successfully created'
     else
@@ -22,6 +23,7 @@ class Admin::UsersController < AdminController
 
   def update
     @user = User.find(params[:id])
+    @user.role_ids = params[:role_ids]
     if @user.update_attributes(user_params)
       redirect_to admin_index_path, notice: 'User was successfully updated'
     else

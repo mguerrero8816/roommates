@@ -2,8 +2,9 @@
 <ul>
   <% roles.each do |role| %>
     <li>
-      <input id="role_<%= role.id %>" type=checkbox value="<%= role.id %>" name="roles[]" <%= 'checked' if selected.include?(role.id) %>>
+      <input id="role_<%= role.id %>" type=checkbox value="<%= role.id %>" name="role_ids[]" <%= 'checked' if selected.include?(role.id) %>>
       <label for="role_<%= role.id %>"><%= role.name %></label>
     </li>
   <% end %>
 </ul>
+<input type="hidden" value="0" name="role_ids[]">
