@@ -32,8 +32,12 @@
         </tr>
       <% end %>
       <tr>
+        <td><label>Roles</label></td>
+        <td><%= render partial: 'admin/role_users/role_multiselect', locals: { selected: @user.roles.uniq.pluck(:id) } %></td>
+      </tr>
+      <tr>
         <td><%= f.submit %></td>
-        <td><%= link_to 'Cancel', request.referrer %></td>
+        <td><%= link_to 'Cancel', admin_index_path %></td>
       </tr>
     </tbody>
   </table>

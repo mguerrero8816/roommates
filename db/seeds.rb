@@ -35,6 +35,9 @@ payment_02 = Payment.create(payable_id: bill_02.id, payable_type: 'Debt', cents:
 payment_03 = Payment.create(payable_id: bill_02.id, payable_type: 'Debt', cents: 62, paid: Time.new(2016, 3, 1))
 payment_04 = Payment.create(payable_id: bill_06.id, payable_type: 'Debt', cents: 9500, paid: Time.new(2016, 3, 1))
 
-admin_role = Role.create(name: 'admin')
+admin_role = Role.create( name: 'admin' )
+dev_role = Role.create( name: 'dev' )
+owner_role = Role.create( name: 'owner' )
+
 admin.roles << admin_role
-mike.roles << admin_role
+mike.roles << dev_role

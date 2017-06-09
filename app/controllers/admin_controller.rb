@@ -4,13 +4,4 @@ class AdminController < ApplicationController
   def index
     @users = User.all
   end
-
-  private
-
-  def restrict_to_admins
-    unless current_user.admin?
-      flash[:alert] = 'Insufficient Permissions'
-      redirect_to root_path
-    end
-  end
 end

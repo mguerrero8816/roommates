@@ -22,7 +22,15 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def admin?
+  def dev?
     roles.uniq.pluck(:id).include?(1)
+  end
+
+  def admin?
+    roles.uniq.pluck(:id).include?(2) || dev?
+  end
+
+  def owner?
+    roles.uniq.pluck(:id).include?(3) || admin? || dev?
   end
 end
