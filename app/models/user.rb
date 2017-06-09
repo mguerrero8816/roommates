@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :role_users, dependent: :destroy
   has_many :roles, through: :role_users
 
-  after_update :update_roles
+  after_save :update_roles
   attr_accessor :role_ids
 
   class << self
