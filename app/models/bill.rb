@@ -21,8 +21,8 @@ class Bill < Debt
   end
 
   def even_split_logic(credit_name)
-    split_factor = apartment.tenants.count
-    apartment.tenants.each do |user|
+    split_factor = apartment.users.count
+    apartment.users.each do |user|
       # skip the person who paid the debt
       next if user_id == user.id
       Credit.create!(user_id: user.id, apartment_id: apartment_id, bill_id: id, name: credit_name, pay_to_id: user_id, cents: cents/split_factor, active: false)

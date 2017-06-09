@@ -1,0 +1,26 @@
+<% form_url = @role.new_record? ? admin_roles_path : admin_role_path(id: @role.id) %>
+<%= form_for(@role, url: form_url) do |f| %>
+  <% if @role.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@role.errors.count, "error") %> prohibited this role from being saved:</h2>
+      <ul>
+        <% @role.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <td><%= f.label :name %></td>
+        <td><%= f.text_field :name %></td>
+      </tr>
+      <tr>
+        <td><%= f.submit %></td>
+        <td><%= link_to 'Cancel', admin_index_path %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

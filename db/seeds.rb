@@ -13,15 +13,15 @@ yuki = User.create(email: 'yuki@test.com', password: 'Abcd1234', first_name: 'Yu
 danny = User.create(email: 'danny@test.com', password: 'Abcd1234', first_name: 'Danny', last_name: 'Mtest')
 
 apartment_01 = Apartment.create(name: 'Old Place', address: '12345 This Street')
-apartment_01.tenants << mike
-apartment_01.tenants << jennice
-apartment_01.tenants << yuki
-apartment_01.tenants << danny
+apartment_01.users << mike
+apartment_01.users << jennice
+apartment_01.users << yuki
+apartment_01.users << danny
 
 apartment_02 = Apartment.create(name: 'New Place', address: '67890 Up Road')
-apartment_02.tenants << mike
-apartment_02.tenants << jennice
-apartment_02.tenants << yuki
+apartment_02.users << mike
+apartment_02.users << jennice
+apartment_02.users << yuki
 
 bill_01 = Bill.create(name: 'Rent', cents: 220000, apartment_id: apartment_01.id, user_id: yuki.id, due: Time.now + 10.days)
 bill_02 = Bill.create(name: 'Electric', cents: 10062, apartment_id: apartment_01.id, user_id: mike.id, due: Time.now + 10.days)
@@ -34,3 +34,11 @@ payment_01 = Payment.create(payable_id: bill_01.id, payable_type: 'Debt', cents:
 payment_02 = Payment.create(payable_id: bill_02.id, payable_type: 'Debt', cents: 10000, paid: Time.new(2016, 2, 1))
 payment_03 = Payment.create(payable_id: bill_02.id, payable_type: 'Debt', cents: 62, paid: Time.new(2016, 3, 1))
 payment_04 = Payment.create(payable_id: bill_06.id, payable_type: 'Debt', cents: 9500, paid: Time.new(2016, 3, 1))
+
+admin_role = Role.create( name: 'admin' )
+admin.roles << admin_role
+
+dev_role = Role.create( name: 'dev' )
+mike.roles << dev_role
+
+owner_role = Role.create( name: 'owner' )

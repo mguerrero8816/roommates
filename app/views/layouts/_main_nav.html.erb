@@ -2,6 +2,7 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li><%= link_to 'Home', root_path %></li>
+      <% if current_user.admin? %><li><%= link_to 'Admin', admin_index_path %></li><% end %>
       <li><%= link_to 'Bills', bills_path %></li>
       <li><%= link_to 'Debts', debts_path %></li>
       <li><%= link_to 'Credits', credits_path %></li>
