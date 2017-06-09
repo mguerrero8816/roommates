@@ -41,7 +41,7 @@ class User < ApplicationRecord
   def update_roles
     return if role_ids.nil?
     # get current role users
-    new_role_ids = role_ids
+    new_role_ids = role_ids.map!(&:to_i)
     # remove unincluded roles from table and matching roles from new list
     role_users.each do |role_user|
       if new_role_ids.include?(role_user.role_id)
