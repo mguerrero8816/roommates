@@ -7,10 +7,10 @@ Rails.application.routes.draw do
   # SIMPLE RESOURCES
   resources :credits, only: [:index]
   resources :debts,   only: [:index]
-  resources :admin,  only: [:index]
+  resources :admin,   only: [:index]
 
   # CUSTOM RESOURCES
-  resources :apartments, only: [] do
+  resources :apartments do
     get :tenants, on: :member
   end
 
