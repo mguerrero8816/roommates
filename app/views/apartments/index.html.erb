@@ -1,0 +1,11 @@
+<%= form_tag search_apartments_path, method: :get do %>
+  <%= label_tag :query, 'Find Apartment' %>
+  <%= text_field_tag :query %>
+  <%= submit_tag 'Search' %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+
+  })
+</script>
