@@ -30,8 +30,8 @@ Rails.application.routes.draw do
 
   # NAMESPACE RESOURCES
   namespace :admin do
-    resources :users, except: [:index]
-    resources :roles, except: [:index]
+    resources :users, except: [:index, :show]
+    resources :roles, except: [:index, :show]
   end
 
   # COMPLEX RESOURCES

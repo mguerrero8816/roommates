@@ -1,7 +1,4 @@
 class Admin::UsersController < AdminController
-  def show
-  end
-
   def new
     @user = User.new
   end
