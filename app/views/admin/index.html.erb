@@ -1,18 +1,7 @@
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Options</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.full_name %></td>
-        <td><%= user.email %></td>
-        <td><%= link_to 'Edit', edit_admin_user_path(id: user.id) %> | <%= link_to 'Delete', admin_user_path(id: user.id), data: { confirm: 'Are you sure?', method: :delete } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="col-sm-6">
+  <h1>Users</h1>
+  <%= render partial: 'admin/users/index' %>
+</div>
+<div class="col-sm-6">
+  <h1>Roles</h1>
+</div>
