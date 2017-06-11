@@ -41,6 +41,16 @@ class ApartmentsController < ApplicationController
     end
   end
 
+  def add_multiple
+    user_apartment_ids = current_user.apartments.uniq.pluck(:id)
+    apartment_ids = params[:apartment_ids] || []
+    apartment_ids -= user_apartment_ids
+    apartment_ids.each do |apartment_id|
+      ApartmentUser.create(user_id: current_user.id, apartment_id: apartment_id)
+    end
+    redirect_to apartments_path, notice: "#{apartment_ids.length} apartments were successfully added"
+  end
+
   private
 
   def apartment_params
