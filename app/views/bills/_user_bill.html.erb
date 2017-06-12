@@ -1,14 +1,16 @@
-<tr>
-  <td><%= link_to bill.bill_name, bill_path(bill.bill_id) %></td>
-  <td><%= bill.apartment_name %></td>
-  <td class="numbers"><%= cents_to_dollars(bill.bill_cents) %></td>
-  <td><%= standard_date(bill.bill_due) || 'Pending' %></td>
-  <td class="numbers">
-    <% paid_off = bill.amount_paid == bill.bill_cents %>
-    <%= cents_to_dollars(bill.amount_paid) if !paid_off %>
-    <%= 'Paid' if paid_off %>
-  </td>
-  <td>
-    <%= link_to 'Pay', bill_payments_path(bill_id: bill.bill_id) if bill.user_id == current_user.id && !paid_off %>
-  </td>
-</tr>
+<% if bill.bill_id %>
+  <tr>
+    <td><%= link_to bill.bill_name, bill_path(bill.bill_id) %></td>
+    <td><%= bill.apartment_name %></td>
+    <td class="numbers"><%= cents_to_dollars(bill.bill_cents) %></td>
+    <td><%= standard_date(bill.bill_due) || 'Pending' %></td>
+    <td class="numbers">
+      <% paid_off = bill.amount_paid == bill.bill_cents %>
+      <%= cents_to_dollars(bill.amount_paid) if !paid_off %>
+      <%= 'Paid' if paid_off %>
+    </td>
+    <td>
+      <%= link_to 'Pay', bill_payments_path(bill_id: bill.bill_id) if bill.user_id == current_user.id && !paid_off %>
+    </td>
+  </tr>
+<% end %>
