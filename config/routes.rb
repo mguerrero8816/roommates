@@ -11,9 +11,10 @@ Rails.application.routes.draw do
 
   # CUSTOM RESOURCES
   resources :apartments do
-    get :tenants,       on: :member
-    get :search,        on: :collection
-    post :add_multiple, on: :collection
+    get  :tenants,        on: :member
+    get  :search,         on: :collection
+    post :join_multiple,  on: :collection
+    post :leave_multiple, on: :collection
   end
 
   resources :landing, only: [] do

@@ -1,0 +1,17 @@
+<%= form_tag leave_multiple_apartments_path do %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Leave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: 'apartment', collection: apartments, as: :apartment %>
+      <tr>
+        <td colspan="3"><%= submit_tag 'Leave Apartments', data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

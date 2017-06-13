@@ -1,6 +1,7 @@
 class ApartmentsController < ApplicationController
 
   def index
+    @apartments = Apartment.where('apartment_users.user_id = ?', current_user.id).joins('LEFT JOIN apartment_users ON apartments.id = apartment_users.apartment_id')
   end
 
   def show
@@ -41,14 +42,20 @@ class ApartmentsController < ApplicationController
     end
   end
 
-  def add_multiple
+  def join_multiple
     user_apartment_ids = current_user.apartments.uniq.pluck(:id)
     apartment_ids = params[:apartment_ids] || []
     apartment_ids -= user_apartment_ids
     apartment_ids.each do |apartment_id|
       ApartmentUser.create(user_id: current_user.id, apartment_id: apartment_id)
     end
-    redirect_to apartments_path, notice: "#{apartment_ids.length} apartments were successfully added"
+    redirect_to apartments_path, notice: "#{apartment_ids.length} apartments were successfully joined"
+  end
+
+  def leave_multiple
+    apartment_ids = params[:apartment_ids] || []
+    ApartmentUser.where(user_id: current_user.id, apartment_id: apartment_ids).destroy_all
+    redirect_to apartments_path, notice: "#{apartment_ids.length} apartments were successfully left"
   end
 
   private
