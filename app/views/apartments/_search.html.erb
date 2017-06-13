@@ -1,0 +1,41 @@
+<%= form_tag search_apartments_path, method: :get, id: 'search_apartments_form' do %>
+  <%= label_tag :query, 'Find Apartment' %>
+  <%= text_field_tag :query %>
+  <%= submit_tag 'Search' %>
+<% end %>
+<div>
+  <%= form_tag join_multiple_apartments_path do %>
+    <table class="table">
+      <thead></thead>
+      <tbody id="search_results"></tbody>
+    </table>
+  <% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $("#search_apartments_form").submit(function(e){
+      $.ajax({
+        type: "GET",
+        url: "/apartments/search",
+        data: $("#search_apartments_form").serialize(),
+        success: function(apartments){
+          renderResults(apartments)
+        }
+      })
+      return false
+    })
+  })
+
+  function renderResults(apartments){
+    $("#search_results").empty()
+    apartments.forEach(function(apartment){
+      var row = $("<tr></tr>")
+      row.append('<td><input id="apartment_' + apartment['id'] + '" type="checkbox" value="' + apartment['id'] + '" name="apartment_ids[]"></td>')
+      row.append('<td><label for="apartment_' + apartment['id'] + '">' + apartment['name'] + '</label></td>')
+      row.append('<td><label for="apartment_' + apartment['id'] + '">' + apartment['address'] + '</label></td>')
+      $("#search_results").append(row)
+    })
+    $("#search_results").append('<tr><td colspan="4"><input name="commit" value="Join Apartments" data-disable-with="Add Apartments" type="submit"></td></tr>')
+  }
+</script>
