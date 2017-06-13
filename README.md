@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+heroku address: https://roommate-bills.herokuapp.com/bills
